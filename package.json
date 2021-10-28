@@ -1,0 +1,17 @@
+{
+  "name": "pinkworld",
+  "version": "1.6.1",
+  "description": "Le code du bot du PinkWorld",
+  "main": "main.js",
+  "dependencies": {
+    "discord.js": "^13.2.0",
+    "mongoose": "^5.11.13"
+  },
+  "scripts": {
+    "dev": "nodemon ./main.js",
+    "start": "node ./main.js"
+  },
+  "author": "BatLeDev#0847",
+  "contributors": ["FenWair#6966"],
+  "license": "ISC"
+}

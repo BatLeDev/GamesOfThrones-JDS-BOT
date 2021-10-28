@@ -1,1 +1,1 @@
-
+Ceci est le code source d'un BOT discord pour le serveur https://discord.gg/gQNyZ2kv2B
