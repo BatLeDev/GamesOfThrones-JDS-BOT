@@ -40,5 +40,5 @@ module.exports = async (bot, message) => {
   }
 
   message.delete().catch(console.error);
-  command.run(bot, message, args, guildsettings, cmdHelp, usersettings);
+  command.run(bot, message, args, cmdHelp);
 };
