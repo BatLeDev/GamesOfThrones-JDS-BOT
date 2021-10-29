@@ -1,7 +1,7 @@
 const { MESSAGES } = require("../../utils/constants");
- 
-module.exports.run = async (bot, message, args) => {
+
+module.exports.run = async (bot) => {
     process.exit();
 };
- 
+
 module.exports.help = MESSAGES.COMMANDS.JUSTDEV.RESTART;
