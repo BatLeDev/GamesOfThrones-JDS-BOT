@@ -157,7 +157,7 @@ const MESSAGES = {
         PREPARATIONS: {
             JOIN: {
                 name: "join",
-                description: "Permet à un joueur de rejoindre la partie",
+                description: "Permet à un joueur de rejoindre la partie. Liste des royaumes: Arryn, `Baratheon, Greyjoy, Lannister, Martell, Stark, Targaryen, Tyrell`",
                 aliases: ["join"],
                 category: "preparations",
 

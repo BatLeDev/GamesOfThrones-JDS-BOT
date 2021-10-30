@@ -1,17 +1,32 @@
 const { MESSAGES } = require("../../utils/constants");
-const { MessageEmbed } = require("discord.js");
 
 module.exports.run = async (bot, message, args) => {
     if (isNaN(args))
-        return message.reply(`Tu as mal tappé la commande`).then((msg) => {
-            msg.delete({ timeout: 15000 });
-        }); // Verrifie que l'argumetn est un nombre entier
-    await message.channel.bulkDelete(args[0]); // On supprime le nombre de messages
-    await message
-        .reply(`${args[0]} message(s) ont été suprimé.`)
-        .then((msg) => {
-            msg.delete({ timeout: 5000 });
-        }); // On envoi le message
+        return message
+            .reply(`Tu as mal tappé la commande`)
+            .then(async (msg) => {
+                await bot.sleep(30000);
+                msg.delete();
+            }); // Verrifie que l'argumetn est un nombre entier
+
+    try {
+        await message.channel.bulkDelete(args[0]); // On supprime le nombre de messages
+        await message.channel
+            .send(`${args[0]} message(s) ont été suprimé.`)
+            .then(async (msg) => {
+                await bot.sleep(30000);
+                msg.delete();
+            }); // On envoi le message
+    } catch {
+        await message
+            .reply(
+                `Due à la limitation de Discord, je ne peut pas supprimer de messages datant de plus de \`14 jours...\`\nPour clear tout le salon, dupliquez le, puis supprimez celui là !`
+            )
+            .then(async (msg) => {
+                await bot.sleep(30000);
+                msg.delete();
+            }); // On envoi le message
+    }
 };
 
 module.exports.help = MESSAGES.COMMANDS.MODERATEUR.CLEAR;

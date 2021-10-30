@@ -1,11 +1,12 @@
 {
     "Phase": 0,
     "Arryn": {
+        "RoleID": "702823145668739142",
         "Joueurs": [],
         "Roi": "",
         "Diplomate": "",
         "ChefDeGuerre": "",
-        "Zonnes": [],
+        "Zonnes": ["A1", "A2", "A3"],
         "Capitale": "",
         "Armies": [],
         "Argent": 0,
@@ -15,11 +16,12 @@
         "Cuir": 0
     },
     "Barathéon": {
+        "RoleID": "702823256578719846",
         "Joueurs": [],
         "Roi": "",
         "Diplomate": "",
         "ChefDeGuerre": "",
-        "Zonnes": [],
+        "Zonnes": ["B1", "B2", "B3"],
         "Capitale": "",
         "Armies": [],
         "Argent": 0,
@@ -29,11 +31,12 @@
         "Cuir": 0
     },
     "Greyjoy": {
+        "RoleID": "702838713775816734",
         "Joueurs": [],
         "Roi": "",
         "Diplomate": "",
         "ChefDeGuerre": "",
-        "Zonnes": [],
+        "Zonnes": ["G1", "G2", "G3"],
         "Capitale": "",
         "Armies": [],
         "Argent": 0,
@@ -43,11 +46,12 @@
         "Cuir": 0
     },
     "Lannister": {
+        "RoleID": "702822919511867411",
         "Joueurs": [],
         "Roi": "",
         "Diplomate": "",
         "ChefDeGuerre": "",
-        "Zonnes": [],
+        "Zonnes": ["L1", "L2", "L3"],
         "Capitale": "",
         "Armies": [],
         "Argent": 0,
@@ -57,11 +61,12 @@
         "Cuir": 0
     },
     "Martell": {
+        "RoleID": "702823114320642128",
         "Joueurs": [],
         "Roi": "",
         "Diplomate": "",
         "ChefDeGuerre": "",
-        "Zonnes": [],
+        "Zonnes": ["M1", "M2", "M3"],
         "Capitale": "",
         "Armies": [],
         "Argent": 0,
@@ -71,11 +76,12 @@
         "Cuir": 0
     },
     "Stark": {
+        "RoleID": "702822841443155988",
         "Joueurs": [],
         "Roi": "",
         "Diplomate": "",
         "ChefDeGuerre": "",
-        "Zonnes": [],
+        "Zonnes": ["S1", "S2", "S3"],
         "Capitale": "",
         "Armies": [],
         "Argent": 0,
@@ -85,11 +91,12 @@
         "Cuir": 0
     },
     "Targaryen": {
+        "RoleID": "702822871491149844",
         "Joueurs": [],
         "Roi": "",
         "Diplomate": "",
         "ChefDeGuerre": "",
-        "Zonnes": [],
+        "Zonnes": ["Ta1", "Ta2", "Ta3"],
         "Capitale": "",
         "Armies": [],
         "Argent": 0,
@@ -99,11 +106,12 @@
         "Cuir": 0
     },
     "Tyrell": {
+        "RoleID": "702823220331675648",
         "Joueurs": [],
         "Roi": "",
         "Diplomate": "",
         "ChefDeGuerre": "",
-        "Zonnes": [],
+        "Zonnes": ["Ty1", "Ty2", "Ty3"],
         "Capitale": "",
         "Armies": [],
         "Argent": 0,

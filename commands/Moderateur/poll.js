@@ -15,8 +15,9 @@ module.exports.run = async (bot, message, args, cmdHelp) => {
     args = args.join(" "); // On recolle tous les arguments en 1 seul.
     if (!args.includes('"'))
         // Si il n'y a pas de question
-        return message.reply(msg_err).then((msg) => {
-            msg.delete({ timeout: 15000 });
+        return message.reply(msg_err).then(async (msg) => {
+            await bot.sleep(15000);
+            msg.delete();
         }); // On affiche l'erreur
 
     args = args.split('"'); // On separe la question des réponses
@@ -25,8 +26,9 @@ module.exports.run = async (bot, message, args, cmdHelp) => {
 
     if (args.length < 2 || args.length > 3)
         //On regarde si il y a tous les arguments nécéssaires (1 question, 1 liste de choix, et (otpionnel) 1 délai)
-        return message.reply(msg_err).then((msg) => {
-            msg.delete({ timeout: 15000 });
+        return message.reply(msg_err).then(async (msg) => {
+            await bot.sleep(15000);
+            msg.delete();
         });
 
     var question = args[0];
@@ -41,8 +43,9 @@ module.exports.run = async (bot, message, args, cmdHelp) => {
     var optionsList = options.split(",");
 
     if (optionsList < 1)
-        return message.reply(msg_err).then((msg) => {
-            msg.delete({ timeout: 15000 });
+        return message.reply(msg_err).then(async (msg) => {
+            await bot.sleep(15000);
+            msg.delete();
         });
 
     var emojiList = [

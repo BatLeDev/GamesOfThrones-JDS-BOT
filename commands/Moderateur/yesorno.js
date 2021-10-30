@@ -8,17 +8,19 @@ module.exports.run = async (bot, message, args, cmdHelp) => {
 
     args = args.join(" ");
     if (!args.includes('"'))
-        return message.reply(msg_err).then((msg) => {
-            msg.delete({ timeout: 15000 });
-        });
+        return message.reply(msg_err).then(async (msg) => {
+                await bot.sleep(15000)
+                msg.delete();
+            });
 
     args = args.split('"');
     args.splice(0, 1);
 
     if (args.length < 1 || args.length > 2)
-        return message.reply(msg_err).then((msg) => {
-            msg.delete({ timeout: 15000 });
-        });
+        return message.reply(msg_err).then(async (msg) => {
+                await bot.sleep(15000)
+                msg.delete();
+            });
 
     var question = args[0];
 

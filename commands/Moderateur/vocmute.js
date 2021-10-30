@@ -7,8 +7,9 @@ module.exports.run = async (bot, message, args) => {
             .reply(
                 "Il faut être dans un salon vocal pour taper cette commande !"
             )
-            .then((msg) => {
-                msg.delete({ timeout: 5000 });
+            .then(async (msg) => {
+                await bot.sleep(15000)
+                msg.delete();
             });
 
     vocal_channel.members.forEach((member) => {

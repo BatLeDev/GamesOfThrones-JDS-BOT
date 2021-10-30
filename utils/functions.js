@@ -12,4 +12,25 @@ module.exports = (bot) => {
         }
         return tab;
     };
+    bot.sleep = (ms) => {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    };
+    bot.hasRole = (rolesCache, rolesId) => {
+        if (typeof rolesId == "string") {
+            for (role of rolesCache) {
+                if (role[0] == rolesId) {
+                    return true;
+                }
+            }
+        } else {
+            for (role of rolesCache) {
+                for (role2 of rolesId) {
+                    if (role[0] == role2) {
+                        return role[0];
+                    }
+                }
+            }
+        }
+        return false;
+    };
 };
