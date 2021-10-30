@@ -25,6 +25,11 @@ module.exports.run = async (bot, message, args) => {
     ];
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
 
+    if (fichier.Phase != 0)
+        return message.reply(
+            "Une partie est déja en cour, veuillez demmander a un <@&702822606696349776> de vous rajouter dans la partie"
+        );
+
     if (args.length == 2) {
         if (!bot.hasRole(message.member.roles.cache, ROLEMJ))
             return await message.reply(
@@ -39,13 +44,14 @@ module.exports.run = async (bot, message, args) => {
             "Vous n'avez pas choisit un royaume valide, voici la liste des royaumes: `Arryn, Baratheon, Greyjoy, Lannister, Martell, Stark, Targaryen, Tyrell`"
         );
 
-    if (bot.hasRole(GuildMember.roles.cache, fichier[args[0]].RoleID))
-        return await message.reply(
+    if (bot.hasRole(GuildMember.roles.cache, rolesId)) {
+        await message.reply(
             args.length == 2
                 ? `${member} est déjà dans un royaume! Faites **${PREFIX}leave ${member}**`
                 : `Vous avez déjà rejoins un royaume! Faites **${PREFIX}leave**`
         ); // Verrifie que l'utilisaeur n'est pas deja dans un royaume
-
+        return;
+    }
     await GuildMember.roles.add(fichier[args[0]].RoleID); // On ajoute le role
 
     fichier[args[0]].Joueurs.push(GuildMember.id); // Ajoute a notre fichier data

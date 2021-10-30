@@ -17,14 +17,14 @@ module.exports = (bot) => {
     };
     bot.hasRole = (rolesCache, rolesId) => {
         if (typeof rolesId == "string") {
-            for (role of rolesCache) {
+            for (let role of rolesCache) {
                 if (role[0] == rolesId) {
                     return true;
                 }
             }
         } else {
-            for (role of rolesCache) {
-                for (role2 of rolesId) {
+            for (let role of rolesCache) {
+                for (let role2 of rolesId) {
                     if (role[0] == role2) {
                         return role[0];
                     }
