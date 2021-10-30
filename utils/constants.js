@@ -10,8 +10,6 @@ const MESSAGES = {
 
                 usage: "(command_name)",
                 args: false,
-
-                channelRequire: true,
             },
             SUGGESTION: {
                 name: "suggestion",
@@ -21,8 +19,6 @@ const MESSAGES = {
 
                 usage: "<votre suggestion>",
                 args: true,
-
-                channelRequire: true,
             },
         },
         JUSTDEV: {
@@ -81,8 +77,6 @@ const MESSAGES = {
 
                 usage: "",
                 args: false,
-
-                channelRequire: true,
             },
             POLL: {
                 name: "poll",
@@ -148,13 +142,38 @@ const MESSAGES = {
                 aliases: ["carte"],
                 category: "partie",
 
-                usage: "<royaume> (joueur)",
-                args: true,
-
-                channelRequire: true,
+                usage: "",
+                args: false,
             },
         },
         PREPARATIONS: {
+            CAPITALE: {
+                name: "capitale",
+                description: "Permet à un roi de choisir sa capitale.",
+                aliases: ["capitale","setCapitale"],
+                category: "preparations",
+
+                usage: "<zone> (royaume)",
+                args: true,
+            },
+            CHEFDEGUERRE: {
+                name: "ChefDeGuerre",
+                description: "Permet à un roi de choisir son chef de guerre",
+                aliases: ["chefdeguerre","cdg"],
+                category: "preparations",
+
+                usage: "<@joueur> (royaume)",
+                args: true,
+            },
+            DIPLOMATE: {
+                name: "diplomate",
+                description: "Permet à un roi de choisir son diplomate",
+                aliases: ["diplomate"],
+                category: "preparations",
+
+                usage: "<@joueur> (royaume)",
+                args: true,
+            },
             JOIN: {
                 name: "join",
                 description: "Permet à un joueur de rejoindre la partie. Liste des royaumes: Arryn, `Baratheon, Greyjoy, Lannister, Martell, Stark, Targaryen, Tyrell`",
@@ -163,8 +182,6 @@ const MESSAGES = {
 
                 usage: "<royaume> (joueur)",
                 args: true,
-
-                channelRequire: true,
             },
             LEAVE: {
                 name: "leave",
@@ -174,8 +191,6 @@ const MESSAGES = {
 
                 usage: "(joueur)",
                 args: false,
-
-                channelRequire: true,
             },
             START: {
                 name: "start",
