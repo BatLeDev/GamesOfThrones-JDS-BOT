@@ -1,4 +1,4 @@
-const { ANNONCEJEU, ROLEROI } = require('../../config')
+const { ANNONCEJEU, ROLEROI } = require("../../config");
 const fs = require("fs");
 
 module.exports = async (bot, forceVote = false) => {
@@ -14,7 +14,7 @@ module.exports = async (bot, forceVote = false) => {
     ];
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
 
-    var nbRoi=0
+    var nbRoi = 0;
 
     //Comptage des votes
     for (let royaume of royaumesList) {
@@ -42,15 +42,21 @@ module.exports = async (bot, forceVote = false) => {
             }
             if (
                 fichier[royaume].Joueurs.length ==
-                Object.keys(fichier[royaume].Roi).length ||
+                    Object.keys(fichier[royaume].Roi).length ||
                 forceVote
             ) {
                 // Si tout le monde a voté, ou que c un vote forcé
-                channel=bot.channels.cache.get(ANNONCEJEU)
+                channel = bot.channels.cache.get(ANNONCEJEU);
                 if (Object.keys(newRoi).length == 1) {
-                    await channel.guild.members.cache.get(Object.keys(newRoi)[0]).roles.add(ROLEROI)
-                    await channel.send(`Bravo ! <@${Object.keys(newRoi)[0]}> deviens roi de ${royaume} (élus avec la majorité) !`)                    
-                    fichier[royaume].Roi=Object.keys(newRoi)[0]
+                    await channel.guild.members.cache
+                        .get(Object.keys(newRoi)[0])
+                        .roles.add(ROLEROI);
+                    await channel.send(
+                        `Bravo ! <@${
+                            Object.keys(newRoi)[0]
+                        }> deviens roi de ${royaume} (élus avec la majorité) !`
+                    );
+                    fichier[royaume].Roi = Object.keys(newRoi)[0];
                 } else if (forceVote) {
                     newRoi =
                         Object.keys(newRoi)[
@@ -58,16 +64,21 @@ module.exports = async (bot, forceVote = false) => {
                                 Math.random() * Object.keys(newRoi).length
                             )
                         ];
-                    await channel.guild.members.cache.get(newRoi).roles.add(ROLEROI)
-                    await channel.send(`Bravo ! <@${newRoi}> deviens roi de ${royaume} (élus par le bot, suite à la fin du temps imparti) !`)
-                    fichier[royaume].Roi=newRoi
+                    await channel.guild.members.cache
+                        .get(newRoi)
+                        .roles.add(ROLEROI);
+                    await channel.send(
+                        `Bravo ! <@${newRoi}> deviens roi de ${royaume} (élus par le bot, suite à la fin du temps imparti) !`
+                    );
+                    fichier[royaume].Roi = newRoi;
                 }
                 fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
             }
         }
-        if (typeof fichier[royaume].Roi == "string") { // Si un roi est voté
-            nbRoi+=1
+        if (typeof fichier[royaume].Roi == "string") {
+            // Si un roi est voté
+            nbRoi += 1;
         }
     }
-    bot.emit("endPhase1")
+    bot.emit("endPhase1");
 };

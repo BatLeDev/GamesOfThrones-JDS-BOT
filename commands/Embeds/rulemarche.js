@@ -9,11 +9,13 @@ module.exports.run = async (bot, message) => {
             `Comme dans toute bonne fiction, il y a toujours un endroit où l’on peut acheter des objets, des boosts, de la nourriture, fabriqué de manière inconnue, mais qui fonctionne. C’est donc pour cela que l’on retrouve le **marché d’Icar le Gar** dans notre jeu ! Vous pourrez y acheter plusieurs choses qui ont des effets particuliers...
             `
         )
-        .addField("Revers patriarcale de la rage: (1000 Gallions)", 
-        `*Aller bandes de lâches Avancez! Combattez jusqu'à la mort !*
+        .addField(
+            "Revers patriarcale de la rage: (1000 Gallions)",
+            `*Aller bandes de lâches Avancez! Combattez jusqu'à la mort !*
         \`Les armées ont + 1 pA pendant 1h\`
         \`Les 2 premiers déplacements du jour sont gratuit\`
-        `)
+        `
+        )
         .addField(
             "Vers Dragon: (1000 Gallions)",
             `*Ce vers n’est pas de terre… Il est bien plus puissant ! Il vous redonnera de la force pour vos combats !*
@@ -56,7 +58,10 @@ module.exports.run = async (bot, message) => {
         );
 
     await message.channel.send({ embeds: [embed] });
-    await message.channel.send({content: "Exemple d'une carte: ", files: ["./Images/exempleCarte.png"]})
+    await message.channel.send({
+        content: "Exemple d'une carte: ",
+        files: ["./Images/exempleCarte.png"],
+    });
 };
 
 module.exports.help = MESSAGES.COMMANDS.EMBEDS.RULEMARCHE;

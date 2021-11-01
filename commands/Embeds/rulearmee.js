@@ -11,9 +11,11 @@ module.exports.run = async (bot, message) => {
             Dans le jeu, les terres natales sont des zones appartenant à des royaumes. Il peut donc y avoir uniquement 2 armées rattachées à la même zone. Il existe 2 types d’armées: Les divisions et les flottes. (Voir <#702922783663063141> pour connaître leur déplacement possibles). \nLes armées peuvent être améliorées et se spécifier dans un domaine: \`A: Meilleur en attaque, D: Meilleur en défense, E: Meilleur en énergie\` Pour pouvoir acheter une nouvelle armée, il faut avoir des **Gallions** et des **Ressources**. \nChacune des armée à des stats: Des points d'attaque **pA**, Des points de défense **pD**, Des points d'énergie **pE**\n\n
             `
         )
-        .addField("__**Achats:**__", 
-        `Division: \`1 pA / 2 pD / 8pE\` *300 Gallions*
-        Flotte: \`1 pA / 2 pD / 6pE\` *100 Gallions + 100 bois + 150 pierre*`)
+        .addField(
+            "__**Achats:**__",
+            `Division: \`1 pA / 2 pD / 8pE\` *300 Gallions*
+        Flotte: \`1 pA / 2 pD / 6pE\` *100 Gallions + 100 bois + 150 pierre*`
+        )
         .addField(
             "__**Amélioration niveau 1: **__",
             `
