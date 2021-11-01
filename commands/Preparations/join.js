@@ -1,5 +1,5 @@
 const { MESSAGES } = require("../../utils/constants");
-const { PREFIX, ROLEMJ } = require("../../config");
+const { PREFIX, ROLEMJ, ROLEJOUEUR } = require("../../config");
 const fs = require("fs");
 
 module.exports.run = async (bot, message, args) => {
@@ -52,7 +52,8 @@ module.exports.run = async (bot, message, args) => {
         ); // Verrifie que l'utilisaeur n'est pas deja dans un royaume
         return;
     }
-    await GuildMember.roles.add(fichier[args[0]].RoleID); // On ajoute le role
+    await GuildMember.roles.add(fichier[args[0]].RoleID); // On ajoute le role de royaume
+    await GuildMember.roles.add(ROLEJOUEUR); // On ajoute le role joueur 
 
     fichier[args[0]].Joueurs.push(GuildMember.id); // Ajoute a notre fichier data
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier

@@ -14,6 +14,8 @@ module.exports = async (bot, forceVote = false) => {
     ];
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
 
+    var nbRoi=0
+
     //Comptage des votes
     for (let royaume of royaumesList) {
         if (typeof fichier[royaume].Roi == "object") {
@@ -63,5 +65,9 @@ module.exports = async (bot, forceVote = false) => {
                 fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
             }
         }
+        if (typeof fichier[royaume].Roi == "string") { // Si un roi est voté
+            nbRoi+=1
+        }
     }
+    bot.emit("endPhase1")
 };

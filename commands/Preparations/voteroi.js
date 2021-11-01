@@ -41,13 +41,12 @@ module.exports.run = async (bot, message, args) => {
     // Commande MJ
     if (args.length==2) {
         if (args[1]=="force" && bot.hasRole(message.member.roles.cache, ROLEMJ)) { // Si c'est un mj, et que il force le vote
-            const ancienRoi=fichier[royaumeVote].Roi
+            const ancienRoi=fichier[royaumeVote].Roi //TODO retirer l'ancien roi
             GuildMemberVote.roles.add(ROLEROI)
             fichier[royaumeVote].Roi = GuildMemberVote.id // On save le nouveau roi
             fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
 
             await bot.channels.cache.get(ANNONCEJEU).send(`Le joueur <@${GuildMemberVote.id} est le nouveau roi du royaume de ${royaumeVote}! *Mdj, retire le role a l'ancien roi*`)
-            //TODO retirer l'ancien roi
             return
         }
         // Si il n'a pas les permissions, on affiche rien

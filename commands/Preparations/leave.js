@@ -43,7 +43,8 @@ module.exports.run = async (bot, message, args) => {
                 : `Vous êtes dans aucun royaume! Faites **${PREFIX}join <royaume>**`
         ); // Verrifie que l'utilisaeur est dans un royaume
 
-    await GuildMember.roles.remove(role); // On retire le role
+    await GuildMember.roles.remove(role); // On retire le role du royaume
+    await GuildMember.roles.remove(ROLEJOUEUR); // On ajoute le role joueur 
 
     royaume = royaumesList[rolesId.indexOf(role)];
     fichier[royaume].Joueurs.splice(

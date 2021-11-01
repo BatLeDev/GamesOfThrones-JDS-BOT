@@ -3,8 +3,8 @@ const { ZONEDESC } = require("../../config");
 const sharp = require("sharp"); // Module de moditication d'image
 const fichier = require("../../partieTest.json");
 
-module.exports.run = async (bot, message = false) => {
-    msgtemp = await message.channel.send("Génération de la carte...");
+module.exports.run = async (bot, message) => {
+    const msgtemp = await message.channel.send("Génération de la carte...");
     royaumesList = [
         "Arryn",
         "Baratheon",
@@ -40,7 +40,9 @@ module.exports.run = async (bot, message = false) => {
     await sharp("./Images/carte-vide.jpeg")
         .composite(composites)
         .toBuffer()
-        .then((data) => sharp(data).png({quality:60}).resize(1024).toFile("output.png"));
+        .then((data) =>
+            sharp(data).png({ quality: 60 }).resize(1024).toFile("output.png")
+        );
 
     await message.channel
         .send({

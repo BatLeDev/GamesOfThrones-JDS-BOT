@@ -21,6 +21,58 @@ const MESSAGES = {
                 args: true,
             },
         },
+        EMBEDS: {
+            RULEARGENT: {
+                name: "ruleArgent",
+                description:
+                    "Affiche les embeds Royaume",
+                aliases: ["ruleargent"],
+                category: "embeds",
+
+                usage: "",
+                args: false,
+            },
+            RULEARMEE: {
+                name: "ruleArmée",
+                description:
+                    "Affiche les embeds Royaume",
+                aliases: ["rulearmee","rulearmée","rulearmées"],
+                category: "embeds",
+
+                usage: "",
+                args: false,
+            },            
+            RULEMARCHE: {
+                name: "ruleMarché",
+                description:
+                    "Affiche les embeds marché d'Icar le Gar",
+                aliases: ["rulemarche"],
+                category: "embeds",
+
+                usage: "",
+                args: false,
+            },
+            RULEROYAUMES: {
+                name: "ruleRoyaume",
+                description:
+                    "Affiche les embeds Royaume",
+                aliases: ["ruleroyaumes","ruleroyaume"],
+                category: "embeds",
+
+                usage: "",
+                args: false,
+            },
+            RULECARTE: {
+                name: "ruleCarte",
+                description:
+                    "Affiche l'embed des regles carte",
+                aliases: ["rulecarte", "rcarte"],
+                category: "embeds",
+
+                usage: "",
+                args: false,
+            },
+        },
         JUSTDEV: {
             EVAL: {
                 name: "eval",
@@ -30,8 +82,6 @@ const MESSAGES = {
 
                 usage: "<code_to_test>",
                 args: true,
-
-                channelRequire: false,
             },
             RESTART: {
                 name: "restart",
@@ -41,8 +91,6 @@ const MESSAGES = {
 
                 usage: "",
                 args: false,
-
-                channelRequire: false,
             },
             TEST: {
                 name: "test",
@@ -52,8 +100,6 @@ const MESSAGES = {
 
                 usage: "",
                 args: false,
-
-                channelRequire: false,
             },
         },
         MODERATEUR: {
@@ -66,8 +112,6 @@ const MESSAGES = {
 
                 usage: "<nombre de messages>",
                 args: true,
-
-                channelRequire: false,
             },
             PING: {
                 name: "ping",
@@ -86,8 +130,6 @@ const MESSAGES = {
 
                 usage: '<"question"> <"plusieurs options séparés par des virgules"> (temps)',
                 args: true,
-
-                channelRequire: false,
             },
             SAY: {
                 name: "say",
@@ -97,8 +139,6 @@ const MESSAGES = {
 
                 usage: "<message>",
                 args: true,
-
-                channelRequire: false,
             },
             VOCMUTE: {
                 name: "vocMute",
@@ -108,8 +148,6 @@ const MESSAGES = {
 
                 usage: "",
                 args: false,
-
-                channelRequire: false,
             },
             VOCUNMUTE: {
                 name: "vocUnmute",
@@ -119,8 +157,6 @@ const MESSAGES = {
 
                 usage: "",
                 args: false,
-
-                channelRequire: false,
             },
             YESORNO: {
                 name: "yesorno",
@@ -131,8 +167,6 @@ const MESSAGES = {
 
                 usage: '<"question"> (temps)',
                 args: true,
-
-                channelRequire: false,
             },
         },
         PARTIE: {
@@ -145,12 +179,21 @@ const MESSAGES = {
                 usage: "",
                 args: false,
             },
+            NEXTPHASE: {
+                name: "nextphase",
+                description: "Afficher le message de la phase suivante",
+                aliases: ["np","phase"],
+                category: "partie",
+
+                usage: "",
+                args: false,
+            },
         },
         PREPARATIONS: {
             CAPITALE: {
                 name: "capitale",
                 description: "Permet à un roi de choisir sa capitale.",
-                aliases: ["capitale","setCapitale"],
+                aliases: ["capitale","setcapitale"],
                 category: "preparations",
 
                 usage: "<zone> (royaume)",
@@ -176,11 +219,11 @@ const MESSAGES = {
             },
             JOIN: {
                 name: "join",
-                description: "Permet à un joueur de rejoindre la partie. Liste des royaumes: Arryn, `Baratheon, Greyjoy, Lannister, Martell, Stark, Targaryen, Tyrell`",
+                description: "Permet à un joueur de rejoindre la partie.",
                 aliases: ["join"],
                 category: "preparations",
 
-                usage: "<royaume> (joueur)",
+                usage: "<Arryn, Baratheon, Greyjoy, Lannister, Martell, Stark, Targaryen, Tyrell> (joueur)",
                 args: true,
             },
             LEAVE: {
@@ -200,8 +243,6 @@ const MESSAGES = {
 
                 usage: "",
                 args: false,
-
-                channelRequire: false,
             },
             VOTECAPITALE: {
                 name: "voteCapitale",
@@ -211,8 +252,6 @@ const MESSAGES = {
 
                 usage: "",
                 args: false,
-
-                channelRequire: false,
             },
             VOTEROI: {
                 name: "voteRoi",
@@ -222,8 +261,6 @@ const MESSAGES = {
 
                 usage: "",
                 args: false,
-
-                channelRequire: false,
             },
         },
     },

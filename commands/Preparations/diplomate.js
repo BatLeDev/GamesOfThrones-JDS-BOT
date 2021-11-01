@@ -48,6 +48,7 @@ module.exports.run = async (bot, message, args) => {
     fichier[Royaume].Diplomate = GuildMemberChoisi.id
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
     message.reply(`Tu viens de choisir ${GuildMemberChoisi} comme diplomate`)
+    bot.emit("endPhase1")
 };
 
 module.exports.help = MESSAGES.COMMANDS.PREPARATIONS.DIPLOMATE;

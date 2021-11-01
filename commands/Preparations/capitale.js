@@ -34,6 +34,7 @@ module.exports.run = async (bot, message, args) => {
             );
         Royaume = args[1]; // On définit le nom du royaume
     } else {
+        if (fichier.Phase!=1) return message.reply("Vous pouvez définir votre capitale uniquement durant la Phase 1.")
         role = bot.hasRole(message.member.roles.cache, rolesId); // Récupère l'id du role du royaume
         Royaume = royaumesList[rolesId.indexOf(role)]; // Récupère le nom du royaume
     }
@@ -52,6 +53,8 @@ module.exports.run = async (bot, message, args) => {
     await bot.channels.cache
         .get(ANNONCEJEU)
         .send(`La capitale des ${Royaume} a été établie en ${args[0]} !`);
+
+        bot.emit("endPhase1")
 };
 
 module.exports.help = MESSAGES.COMMANDS.PREPARATIONS.CAPITALE;
