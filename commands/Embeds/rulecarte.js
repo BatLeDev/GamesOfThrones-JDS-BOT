@@ -48,7 +48,10 @@ module.exports.run = async (bot, message) => {
         );
 
     await message.channel.send({ embeds: [embed] });
-    await message.channel.send({content: "Exemple d'une carte: ", files: ["./Images/exempleCarte.png"]})
+    await message.channel.send({
+        content: "Exemple d'une carte: ",
+        files: ["./Images/exempleCarte.png"],
+    });
 };
 
 module.exports.help = MESSAGES.COMMANDS.EMBEDS.RULECARTE;

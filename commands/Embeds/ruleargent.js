@@ -14,9 +14,13 @@ module.exports.run = async (bot, message) => {
 
             `
         )
-        .addField("__**Production de Gallions:**__", `Chaque jour, le royaume génère 200 Gallions par zone possédée et 300 Gallions grace à la capitale.`)
         .addField(
-            "__**Production de Ressources: **__",`Chaque jour, le royaume produit **du bois, du cuir, de la pierre, et du fer**, par quantité de **150 unités**.            `
+            "__**Production de Gallions:**__",
+            `Chaque jour, le royaume génère 200 Gallions par zone possédée et 300 Gallions grace à la capitale.`
+        )
+        .addField(
+            "__**Production de Ressources: **__",
+            `Chaque jour, le royaume produit **du bois, du cuir, de la pierre, et du fer**, par quantité de **150 unités**.            `
         )
         .addField(
             "__**Améliorations de production: **__",

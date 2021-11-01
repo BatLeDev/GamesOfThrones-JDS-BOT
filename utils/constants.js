@@ -188,6 +188,15 @@ const MESSAGES = {
                 usage: "",
                 args: false,
             },
+            SETZONE: {
+                name: "setZone",
+                description: "Définie une zone à un royaume",
+                aliases: ["setzone","sz"],
+                category: "partie",
+
+                usage: "<zone> < @Royaume ou Nom du royaume >",
+                args: true,
+            },
         },
         PREPARATIONS: {
             CAPITALE: {
