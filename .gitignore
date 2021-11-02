@@ -1,5 +1,6 @@
 config.js
 yarn.lock
-node_modules
-test.txt
+node_modules/
 output.png
+partieTest.json
+package-lock.json

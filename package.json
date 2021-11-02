@@ -10,6 +10,7 @@
   },
   "scripts": {
     "dev": "nodemon ./main.js",
+    "prestart": "git pull && npm install",
     "start": "node ./main.js"
   },
   "author": "BatLeDev#0847",

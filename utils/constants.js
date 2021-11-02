@@ -188,7 +188,6 @@ const MESSAGES = {
                 usage: "",
                 args: false,
             },
-<<<<<<< HEAD
             SETDIV: {
                 name: "setdiv",
                 description: "achète et installe une division de base dans la zone choisie",
@@ -207,8 +206,6 @@ const MESSAGES = {
                 usage: "<zone>",
                 args: true,
             },
-=======
->>>>>>> main
             SETZONE: {
                 name: "setZone",
                 description: "Définie une zone à un royaume",
@@ -218,7 +215,6 @@ const MESSAGES = {
                 usage: "<zone> < @Royaume ou Nom du royaume >",
                 args: true,
             },
-<<<<<<< HEAD
             TAKE: {
                 name: "take",
                 description: "permet à un royaume de prendre une zone, à condition qu’elle soit occupée par personne, ou alors qu’elle n’ai plus de pR. Pour rappel, la commande coûte **200 Gallions**.",
@@ -237,9 +233,6 @@ const MESSAGES = {
                 usage: "<Nom de l'armée> (A,D,ou E)",
                 args: true,
             },
-
-=======
->>>>>>> main
         },
         PREPARATIONS: {
             CAPITALE: {
