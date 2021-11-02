@@ -1,7 +1,7 @@
 {
-  "name": "pinkworld",
+  "name": "jds-got",
   "version": "1.6.1",
-  "description": "Le code du bot du PinkWorld",
+  "description": "Le code du bot du JDS-GOT-BOT",
   "main": "main.js",
   "dependencies": {
     "discord.js": "^13.2.0",
@@ -10,6 +10,7 @@
   },
   "scripts": {
     "dev": "nodemon ./main.js",
+    "test": "node ./main.js",
     "prestart": "git pull && npm install",
     "start": "node ./main.js"
   },

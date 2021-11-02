@@ -56,7 +56,7 @@ module.exports.run = async (bot, message, args) => {
         // Si il n'a pas les permissions, on affiche rien
     }
 
-    if (fichier.Phase!=1) return message.reply("Il faut être dans la pahse 1 pour pouvoir commencer a voter votre roi!") // Si on est pas dans la phase de vote, on skip
+    if (fichier.Phase!=1) return message.reply("Il faut être dans la phase 1 pour pouvoir commencer a voter votre roi!") // Si on est pas dans la phase de vote, on skip
     if (typeof fichier[royaumeVote].Roi == "string") return message.reply("Votre roi a déja été élu !")
 
     GuildMemberMe = message.member; // On récupère le membre

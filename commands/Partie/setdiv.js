@@ -28,6 +28,9 @@ module.exports.run = async (bot, message, args) => {
         "702823220331675648",
     ];
 
+    if (fichier.Phase!=2)  {
+        return await message.reply("Vous devez être dans la phase 2pour faire spawn des armées")
+    }
     var role = bot.hasRole(message.member.roles.cache, rolesId); // Récupère l'id du role du royaume
     var Royaume = royaumesList[rolesId.indexOf(role)]; // Récupère le nom du royaume
 
@@ -59,6 +62,7 @@ module.exports.run = async (bot, message, args) => {
 
     div={
         "name":`Div|${args[0]}|${compteur+1}`,
+        "loc":args[0],
         "pA":1,
         "pD":2,
         "pE":8

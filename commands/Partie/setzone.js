@@ -1,12 +1,14 @@
 const { MESSAGES } = require("../../utils/constants");
-const { ZONEDESC } = require("../../config");
+const { ZONEDESC, ROLEMJ } = require("../../config");
 const fs = require("fs");
 
 module.exports.run = async (bot, message, args) => {
     // Définie une zone à un royaume
     // Retire cette zone à l'autre royaume si elle fait deja parti d'un royaume
-    //TODO fix quand mentionne le role 
 
+    if (!bot.hasRole(message.member.roles.cache, ROLEMJ)) { 
+        return await message.reply("Vous n'avez pas la permission pour faire cette commande !")
+    }
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
     royaumesList = [
         "Arryn",
@@ -36,34 +38,29 @@ module.exports.run = async (bot, message, args) => {
             "Vous devez choisir un nom de zone valide !"
         );
     }
-    if (args.length == 2) {
-        if (
-            !royaumesList.includes(args[1]) &&
-            message.mentions.roles.size < 1
-        ) {
+    if (message.mentions.roles.size < 1) {
+        if (!royaumesList.includes(args[1])) {
             return await message.reply(
                 "Vous devez choisir un royaume valide !"
             );
+        } else {
+            royaumeName = args[1];
         }
-        royaumeName = args[1];
-    } else if (message.mentions.roles.size < 1) {
-        return await message.reply("Vous devez choisir un royaume valide !");
-    } else {
-        royaumeName =
-            royaumesList[rolesId.indexOf(message.mentions.roles.first().id)];
+    } else {   
+        royaumeName = royaumesList[rolesId.indexOf(message.mentions.roles.first().id)];
     }
-
 
     var zoneobj={}
     for (let royaume of royaumesList) {      
         for (let iZone in fichier[royaume].Zones) {
             if (fichier[royaume].Zones[iZone].name == args[0]) {
                 zoneobj=fichier[royaume].Zones[iZone] // On récupère le nom et les pR
+                fichier[royaume].Zones.splice(iZone,1)
             }
         }
     }
 
-    fichier[royaumeName].Zones.push(args[0]);
+    fichier[royaumeName].Zones.push(zoneobj);
     await message.reply(
         `La zone ${args[0]} appartiens maintenant au royaume de ${royaumeName}`
     );
