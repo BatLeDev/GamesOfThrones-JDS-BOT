@@ -15,7 +15,11 @@ module.exports.run = async (bot, message, args) => {
         "Martell",
         "Stark",
         "Targaryen",
+<<<<<<< HEAD
         "Tyrell"
+=======
+        "Tyrell",
+>>>>>>> main
     ];
     rolesId = [
         "702823145668739142",
@@ -52,15 +56,22 @@ module.exports.run = async (bot, message, args) => {
             royaumesList[rolesId.indexOf(message.mentions.roles.first().id)];
     }
 
+<<<<<<< HEAD
     var zoneobj={}
     for (let royaume of royaumesList) {      
         for (let iZone in fichier[royaume].Zones) {
             if (fichier[royaume].Zones[iZone].name == args[0]) {
                 zoneobj=fichier[royaume].Zones[iZone] // On récupère le nom et les pR
+=======
+    for (let royaume of royaumesList) {        
+        for (let iZone in fichier[royaume].Zones) {
+            if (fichier[royaume].Zones[iZone] == args[0]) {
+>>>>>>> main
                 fichier[royaume].Zones.splice(iZone, 1);
             }
         }
     }
+<<<<<<< HEAD
     for (let izone in fichier.ZonesVides) {
         if (fichier.ZonesVides[izone].name==args[0]) {
             zoneobj=fichier.ZonesVides[izone] // On récupère le nom et les pR
@@ -70,6 +81,10 @@ module.exports.run = async (bot, message, args) => {
 
     //Déplacer le channel texte
     fichier[royaumeName].Zones.push(zoneobj); //Push avec les pR
+=======
+
+    fichier[royaumeName].Zones.push(args[0]);
+>>>>>>> main
     await message.reply(
         `La zone ${args[0]} appartiens maintenant au royaume de ${royaumeName}`
     );
