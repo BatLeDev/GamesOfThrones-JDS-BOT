@@ -188,6 +188,24 @@ const MESSAGES = {
                 usage: "",
                 args: false,
             },
+            SETDIV: {
+                name: "setdiv",
+                description: "achète et installe une division de base dans la zone choisie",
+                aliases: ["setdiv"],
+                category: "partie",
+
+                usage: "<zone>",
+                args: true,
+            },
+            SETFLO: {
+                name: "setflo",
+                description: "achète et installe une flotte de base dans la zone choisie",
+                aliases: ["setflo"],
+                category: "partie",
+
+                usage: "<zone>",
+                args: true,
+            },
             SETZONE: {
                 name: "setZone",
                 description: "Définie une zone à un royaume",
@@ -197,6 +215,25 @@ const MESSAGES = {
                 usage: "<zone> < @Royaume ou Nom du royaume >",
                 args: true,
             },
+            TAKE: {
+                name: "take",
+                description: "permet à un royaume de prendre une zone, à condition qu’elle soit occupée par personne, ou alors qu’elle n’ai plus de pR. Pour rappel, la commande coûte **200 Gallions**.",
+                aliases: ["take"],
+                category: "partie",
+
+                usage: "<zone>",
+                args: true,
+            },
+            UPGRADE: {
+                name: "upgrade",
+                description: "Permet d'améliorer une armée",
+                aliases: ["upgrade"],
+                category: "partie",
+
+                usage: "<Nom de l'armée> (A,D,ou E)",
+                args: true,
+            },
+
         },
         PREPARATIONS: {
             CAPITALE: {
@@ -253,23 +290,14 @@ const MESSAGES = {
                 usage: "",
                 args: false,
             },
-            VOTECAPITALE: {
-                name: "voteCapitale",
-                description: "Permet au joueur de voter pour sa capitale",
-                aliases: ["votecapitale"],
-                category: "preparations",
-
-                usage: "",
-                args: false,
-            },
             VOTEROI: {
                 name: "voteRoi",
                 description: "Permet au joueur de voter son roi",
                 aliases: ["voteroi"],
                 category: "preparations",
 
-                usage: "",
-                args: false,
+                usage: "<@Joueur> (Royaume)",
+                args: true,
             },
         },
     },

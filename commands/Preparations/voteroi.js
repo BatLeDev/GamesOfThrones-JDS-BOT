@@ -34,6 +34,10 @@ module.exports.run = async (bot, message, args) => {
 
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
 
+    if (message.mentions.members.size==0) {
+        return await message.reply("Vous devez mentionner un joueur !")
+    }
+
     GuildMemberVote = message.mentions.members.first(); // On récupère le membre mentionné
     roleVote = bot.hasRole(GuildMemberVote.roles.cache, rolesId);  // On cherche son role de royaume
     royaumeVote = royaumesList[rolesId.indexOf(roleVote)]; // On cherche le nom de son royaume
@@ -52,7 +56,7 @@ module.exports.run = async (bot, message, args) => {
         // Si il n'a pas les permissions, on affiche rien
     }
 
-    if (fichier.Phase!=1) return // Si on est pas dans la phase de vote, on skip
+    if (fichier.Phase!=1) return message.reply("Il faut être dans la pahse 1 pour pouvoir commencer a voter votre roi!") // Si on est pas dans la phase de vote, on skip
     if (typeof fichier[royaumeVote].Roi == "string") return message.reply("Votre roi a déja été élu !")
 
     GuildMemberMe = message.member; // On récupère le membre

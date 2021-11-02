@@ -23,14 +23,14 @@ module.exports = async (bot) => {
                 "Targaryen",
                 "Tyrell",
             ];
-
+            
             composites = [];
             for (let Royaume of royaumesList) {
                 for (let zone of fichier[Royaume].Zones) {
                     composites.push({
                         input: `./Images/Blason-${Royaume}.png`,
-                        left: ZONEDESC[zone].left,
-                        top: ZONEDESC[zone].top,
+                        left: ZONEDESC[zone.name].left,
+                        top: ZONEDESC[zone.name].top,
                     });
                 }
                 if (fichier[Royaume].Capitale != "") {

@@ -43,9 +43,15 @@ module.exports.run = async (bot, message, args) => {
         return await message.reply(
             "Il faut être un roi pour pouvoir executer cette commande!"
         );
-    if (!fichier[Royaume].Zones.includes(args[0]))
+
+    let zoneroyaume=[] // La liste des noms de zones
+    for (let zone of fichier[Royaume].Zones) {
+        zoneroyaume.push(zone.name)
+    }
+
+    if (!zoneroyaume.includes(args[0]))
         return await message.reply(
-            `Vous devez choisir une zone de votre royaume ! \`${fichier[Royaume].Zones}\``
+            `Vous devez choisir une zone de votre royaume !`
         );
 
     fichier[Royaume].Capitale = args[0];

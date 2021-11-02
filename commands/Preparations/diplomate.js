@@ -24,6 +24,8 @@ module.exports.run = async (bot, message, args) => {
         "702822871491149844",
         "702823220331675648",
     ];
+    var role="";
+    var Royaume="";
 
     if (args.length == 2 && bot.hasRole(message.member.roles.cache, ROLEMJ)) { // Si c'est un maitre du jeu
         // Récupère l'id du royaume
