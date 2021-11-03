@@ -76,8 +76,11 @@ module.exports.run = async (bot, message, args) => {
         return await message.reply("Cette zone n'est pas libre, ou elle a encore des pR")
     }
 
+    fichier[RoyaumeName].Gallions-=200
     fichier[royaumeName].Zones.push(zonelibre);
+    bot.updateStats(Royaume)
 
+    await message.reply(`Vous vennez de prendre la zone ${args[0]}`)
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
 };
 

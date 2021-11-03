@@ -29,7 +29,7 @@ module.exports.run = async (bot, message, args) => {
     ];
 
     if (fichier.Phase!=2)  {
-        return await message.reply("Vous devez être dans la phase 2pour faire spawn des armées")
+        return await message.reply("Vous devez être dans la phase 2 pour faire spawn des armées")
     }
     
     var role = bot.hasRole(message.member.roles.cache, rolesId); // Récupère l'id du role du royaume
@@ -70,7 +70,10 @@ module.exports.run = async (bot, message, args) => {
     }
 
     fichier[Royaume].Armies.push(flo)
-    fichier[Royaume].Gallions-=300
+    fichier[Royaume].Gallions-=100
+    fichier[Royaume].Bois-=100
+    fichier[Royaume].Pierre-=150
+    bot.updateStats(Royaume)
     await message.reply(`Vous vennez de creer la flotte ${flo.name} ! Cela vous a coûté 100 Gallions, 100 Bois et 150 pierre.`)
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
 };

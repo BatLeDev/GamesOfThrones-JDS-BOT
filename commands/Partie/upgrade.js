@@ -96,7 +96,8 @@ module.exports.run = async (bot, message, args) => {
     const name=`${type}|${speci}|${armee[armee.length-2]}|${armee[armee.length-1]}`
     fichier[Royaume].Armies[indice].name=name
     await message.reply(`Vote armée ${name} viens d'être améliorée !`)
-
+    
+    bot.updateStats(Royaume)
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
 };
 

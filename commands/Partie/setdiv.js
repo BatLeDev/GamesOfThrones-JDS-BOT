@@ -29,7 +29,7 @@ module.exports.run = async (bot, message, args) => {
     ];
 
     if (fichier.Phase!=2)  {
-        return await message.reply("Vous devez être dans la phase 2pour faire spawn des armées")
+        return await message.reply("Vous devez être dans la phase 2 pour faire spawn des armées")
     }
     var role = bot.hasRole(message.member.roles.cache, rolesId); // Récupère l'id du role du royaume
     var Royaume = royaumesList[rolesId.indexOf(role)]; // Récupère le nom du royaume
@@ -70,6 +70,7 @@ module.exports.run = async (bot, message, args) => {
 
     fichier[Royaume].Armies.push(div)
     fichier[Royaume].Gallions-=300
+    bot.updateStats(Royaume)
     await message.reply(`Vous vennez de creer la division ${div.name} ! Cela vous a coûté 300 Gallions.`)
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
 };
