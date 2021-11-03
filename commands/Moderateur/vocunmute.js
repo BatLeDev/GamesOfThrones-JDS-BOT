@@ -16,7 +16,6 @@ module.exports.run = async (bot, message, args) => {
         member.voice.setMute(false);
     });
 
-    console.log(`All unmuted by ${message.author.username}`);
 };
 
 module.exports.help = MESSAGES.COMMANDS.MODERATEUR.VOCUNMUTE;

@@ -6,6 +6,8 @@ const fs = require("fs");
 module.exports.run = async (bot, message, args) => {
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
 
+    //TODO verrifier que toutes les equipes ont 4 joueurs ou plus
+
     if (!bot.hasRole(message.member.roles.cache, ROLEMJ))
         return await message.reply(
             `Tu n'a pas la permission de faire cette commande !`

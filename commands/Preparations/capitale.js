@@ -39,7 +39,7 @@ module.exports.run = async (bot, message, args) => {
         Royaume = royaumesList[rolesId.indexOf(role)]; // Récupère le nom du royaume
     }
 
-    if (!bot.hasRole(message.member.roles.cache, ROLEROI))
+    if (!bot.hasRole(message.member.roles.cache, ROLEROI)) // Verrifie si la personne a le role de roi
         return await message.reply(
             "Il faut être un roi pour pouvoir executer cette commande!"
         );
@@ -49,13 +49,15 @@ module.exports.run = async (bot, message, args) => {
         zoneroyaume.push(zone.name)
     }
 
-    if (!zoneroyaume.includes(args[0]))
+    if (!zoneroyaume.includes(args[0])) // Verrifie que la zone appartien au royaume
         return await message.reply(
             `Vous devez choisir une zone de votre royaume !`
         );
 
     fichier[Royaume].Capitale = args[0];
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
+
+    // Affiche l'annonce
     await bot.channels.cache
         .get(ANNONCEJEU)
         .send(`La capitale des ${Royaume} a été établie en ${args[0]} !`);

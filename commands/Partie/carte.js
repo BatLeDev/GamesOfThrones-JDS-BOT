@@ -4,7 +4,7 @@ const sharp = require("sharp"); // Module de moditication d'image
 const fichier = require("../../partieTest.json");
 
 module.exports.run = async (bot, message) => {
-    const msgtemp = await message.channel.send("Génération de la carte...");
+    const msgtemp = await message.channel.send("Génération de la carte..."); // Affiche un message temporaire durant la génération de la carte
     royaumesList = [
         "Arryn",
         "Baratheon",
@@ -16,16 +16,16 @@ module.exports.run = async (bot, message) => {
         "Tyrell",
     ];
 
-    composites = [];
-    for (let Royaume of royaumesList) {
-        for (let zone of fichier[Royaume].Zones) {
-            composites.push({
-                input: `./Images/Blason-${Royaume}.png`,
-                left: ZONEDESC[zone.name].left,
+    composites = []; // La variable qui comprend la liste des images a coller
+    for (let Royaume of royaumesList) { // Pour chaque royaume
+        for (let zone of fichier[Royaume].Zones) { // Pour chaque zone de chaque royaume
+            composites.push({ // On ajoute l'image a la composition
+                input: `./Images/Blason-${Royaume}.png`, // Le nom
+                left: ZONEDESC[zone.name].left, // La localisaiton
                 top: ZONEDESC[zone.name].top,
             });
         }
-        if (fichier[Royaume].Capitale !== null) {
+        if (fichier[Royaume].Capitale !== null) { // Si la capitale a été définie
             composites.push({
                 input: `./Images/Couronne.png`,
                 left: ZONEDESC[fichier[Royaume].Capitale].left,
@@ -34,16 +34,18 @@ module.exports.run = async (bot, message) => {
         }
     }
 
-    composites.push({
+    composites.push({ // On ajoute l'image des noms de zones
         input: "./Images/LayerNames.png",
     });
-    await sharp("./Images/carte-vide.jpeg")
-        .composite(composites)
+
+    await sharp("./Images/carte-vide.jpeg") // On génère l'image
+        .composite(composites) // On colle toutes les images ensembles
         .toBuffer()
         .then((data) =>
-            sharp(data).png({ quality: 60 }).resize(1024).toFile("output.png")
+            sharp(data).png({ quality: 60 }).resize(1024).toFile("output.png") // On diminue la qualitée
         );
 
+    // On envoi l'image
     await message.channel
         .send({
             files: ["output.png"],

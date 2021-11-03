@@ -18,7 +18,6 @@ module.exports.run = async (bot, message, args) => {
         }
     });
 
-    console.log(`All muted by ${message.author.username}`);
 };
 
 module.exports.help = MESSAGES.COMMANDS.MODERATEUR.VOCMUTE;

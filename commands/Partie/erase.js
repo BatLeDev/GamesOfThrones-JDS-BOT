@@ -4,8 +4,7 @@ const fs = require("fs");
 
 module.exports.run = async (bot, message, args) => {
     // Trouver le royaume
-    // Trouver l'armée 
-    // Retirer l'armée
+    // Trouver l'armée et la supprime
 
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
     royaumesList = [
@@ -44,7 +43,7 @@ module.exports.run = async (bot, message, args) => {
         royaume = royaumesList[rolesId.indexOf(role)]; // Récupère le nom du royaume
     }
 
-    let del=false
+    let del=false // Passe a vraie si il supprime une armée
     for (let iarmee in fichier[royaume].Armies) {
         if (fichier[royaume].Armies[iarmee].name==args[0])  {
             fichier[royaume].Armies.splice(iarmee,1)
@@ -52,7 +51,7 @@ module.exports.run = async (bot, message, args) => {
             del=true
         }
     }
-    if (del===false) {
+    if (del===false) { // Si aucune armée n'est suprimée
         return await message.reply('Vous devez choisir une armée existante !')
     }
     

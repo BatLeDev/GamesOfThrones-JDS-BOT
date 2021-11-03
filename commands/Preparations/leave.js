@@ -58,9 +58,7 @@ module.exports.run = async (bot, message, args) => {
             ? `${GuildMember.displayName} viens de quitter le royaume de \`${royaume}\``
             : `Vous vennez de quitter le royaume de \`${royaume}\``
     ); // On répond a l'uttilisateur
-    console.log(
-        `${GuildMember.displayName} viens de quitter le royaume de ${royaume}`
-    ); // On log la commande
+
 };
 
 module.exports.help = MESSAGES.COMMANDS.PREPARATIONS.LEAVE;

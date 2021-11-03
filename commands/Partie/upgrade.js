@@ -25,7 +25,7 @@ module.exports.run = async (bot, message, args) => {
         "702822871491149844",
         "702823220331675648",
     ];
-    const rules = {
+    const couts = { // Les règles d'achat
         "Div": {
             A:"200|Gallions+400|Fer",
             D:"200|Gallions+400|Bois",
@@ -43,6 +43,24 @@ module.exports.run = async (bot, message, args) => {
             EE:"300|Gallions+600|Bois"
         }
     }
+    const points = { // Les règles d'achat
+        "Div": {
+            A:[2,2,8], // [pA,pD,pE]
+            D:[1,4,8],
+            E:[1,3,10],
+            AA:[3,3,9],
+            DD:[2,6,9],
+            EE:[2,4,12]
+        },
+        "Flo": {
+            A:[2,2,6],
+            D:[1,4,6],
+            E:[1,4,8],
+            AA:[3,3,7],
+            DD:[2,6,7],
+            EE:[2,4,10]
+        }
+    }
 
     var role = bot.hasRole(message.member.roles.cache, rolesId); // Récupère l'id du role du royaume
     var Royaume = royaumesList[rolesId.indexOf(role)]; // Récupère le nom du royaume
@@ -57,8 +75,8 @@ module.exports.run = async (bot, message, args) => {
         return await message.reply("Vous devez choisir une armée de votre royaume !")
     }
     
-    let armee = fichier[Royaume].Armies[indice].name.split("|")
-    let type=armee[0]
+    let armee = fichier[Royaume].Armies[indice].name.split("|") // On récupèe le nom de l'armée, en liste, de manière décompressé
+    let type=armee[0] // Récupère le type de l'armée 
     let lvl=armee.length==4?armee.length:0 // Récupère le niveau de l'armée => 0 ou 1 ou 2
 
     if (lvl==0&&args.length==1) { // Si c'est une armée de niveau 0
@@ -68,14 +86,24 @@ module.exports.run = async (bot, message, args) => {
         return message.reply("Votre armée est déja au noveau max !")
     }
     
-    let cout=""
-    let speci=""
+    // Récupération du cout
+    let cout="";
+    let speci="";
+    let pA=0;
+    let pD=0;
+    let pE=0;
     if (lvl==0) {
-        cout=rules[type][args[1]]
+        cout=couts[type][args[1]] // Div A,D,E
         speci=args[1]
+        pA=points[type][args[1]][0] // Les points d'attaques niveau 1
+        pD=points[type][args[1]][1]
+        pE=points[type][args[1]][2]
     } else {
-        cout=rules[type][`${armee[1]}${armee[1]}`]
+        cout=couts[type][`${armee[1]}${armee[1]}`] // Div DD
         speci=`${armee[1]}${armee[1]}`
+        pA=points[type][args[1]][0]
+        pD=points[type][args[1]][1]
+        pE=points[type][args[1]][2]
     }
 
     // Test si assez de ressources
@@ -83,21 +111,25 @@ module.exports.run = async (bot, message, args) => {
     for (let res of ressources) {
         res=res.split("|")
         if (fichier[Royaume][res[1]]<res[0]) {
-            console.log(fichier[Royaume][res[1]],res[0])
             return await message.reply("Vous n'avez pas assez de ressources")
         }
     }
+
     // Retire les ressources
     for (let res of ressources) {
         res=res.split("|")
         fichier[Royaume][res[1]]-=res[0]
     }
+
     // Améliore l'armée
-    const name=`${type}|${speci}|${armee[armee.length-2]}|${armee[armee.length-1]}`
-    fichier[Royaume].Armies[indice].name=name
-    await message.reply(`Vote armée ${name} viens d'être améliorée !`)
+    const name=`${type}|${speci}|${armee[armee.length-2]}|${armee[armee.length-1]}` // Recréé le nom de l'armée
+    fichier[Royaume].Armies[indice].name=name // Enregistre le nouveau nom
+    fichier[Royaume].Armies[indice].pA=pA // Enregistre les nouveaux pA
+    fichier[Royaume].Armies[indice].pD=pD // Enregistre les nouveaux pD
+    fichier[Royaume].Armies[indice].pE=pE // Enregistre les nouveaux pE
+    await message.reply(`Vote armée ${name} viens d'être améliorée ! *Va voir dans ton salon Statistique pour voir ses nouvelles compétences :wink:`)
     
-    bot.updateStats(Royaume)
+    bot.updateStats(Royaume) // Actualise le salon des stats
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
 };
 

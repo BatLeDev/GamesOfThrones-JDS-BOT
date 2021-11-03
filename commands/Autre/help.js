@@ -71,7 +71,7 @@ module.exports.run = (bot, message, args) => {
                 "Made by BatLeDev",
                 "https://cdn.discordapp.com/avatars/403589929877372928/f6c3f80cf3b17568cdecae6882421ac6.png"
             );
-        if (command.help.aliases.length > 0)
+        if (command.help.aliases.length > 0) // Si il y a des aliases, on les ajoutes
             embed.addField("Alias", `${command.help.aliases.join(", ")}`, true);
 
         return message.channel.send({ embeds: [embed] });

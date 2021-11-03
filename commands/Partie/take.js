@@ -31,8 +31,8 @@ module.exports.run = async (bot, message, args) => {
         "702823220331675648",
     ];
 
-    const listZones = Object.keys(ZONEDESC);
-    if (!listZones.includes(args[0])) {
+    const listZones = Object.keys(ZONEDESC); // Récupère la liste des noms de zones 
+    if (!listZones.includes(args[0])) { // Test si l'argument est un nom de zone
         return await message.reply(
             "Vous devez choisir un nom de zone valide !"
         );
@@ -47,37 +47,44 @@ module.exports.run = async (bot, message, args) => {
     }
     
     // Test la présence d'une armée
-    let armeePresence=false
+    let armeePresence=false // Passe a vrai si une armée est présente sur la zone
     for (let armee of fichier[RoyaumeName].Armies) {
         if (armee.loc==args[0])  {
             armeePresence=true
         }
     }
-    if (!armeePresence) {
+    if (armeePresence) {
         return await message.reply("Vous devez avoir une armée présente sur la zone pour pouvoir la prendre")
     }
 
     // Trouve la zone
-    zonelibre=false
+    zonelibre=false // Passe a vrais si la zone est libre
+
+    // On cherhce dans les zones vites 
     for (let izone in fichier.ZonesVides) {
         if (fichier.ZonesVides[izone].name==args[0]&&zone.pr==0) {
-            zonelibre=zone
-            fichier.ZonesVides.splice(iZone,1)
+            zonelibre=fichier.ZonesVides[izone] // Récupère l'object de la zone
+            fichier.ZonesVides.splice(iZone,1)  // Retire la zone
         }
     }
+
+    // On cherhe dans les zones possédés par des royaumes
     for (let royaume of royaumesList) {
         for (let izone in fichier[royaume].Zones) {
             if (fichier[royaume].Zones[izone].name==args[0]&&zone.pr==0) {
-                fichier[royaume].Zones.splice(iZone,1)
+                zonelibre=fichier[royaume].Zones[izone] // Récupère l'object de la zone
+                fichier[royaume].Zones.splice(iZone,1) // Retire la zone
             }
         }
     }
-    if (zonelibre===false) {
+    if (zonelibre===false) { // Si la zone n'est pas libre, on affiche une erreure 
         return await message.reply("Cette zone n'est pas libre, ou elle a encore des pR")
     }
 
-    fichier[RoyaumeName].Gallions-=200
-    fichier[royaumeName].Zones.push(zonelibre);
+    //TODO deplacer la zone bot.moove(channelId, categorieId)
+    
+    fichier[RoyaumeName].Gallions-=200 // On retire le cout de la commande
+    fichier[royaumeName].Zones.push(zonelibre);  // On ajoute la zone
     bot.updateStats(Royaume)
 
     await message.reply(`Vous vennez de prendre la zone ${args[0]}`)

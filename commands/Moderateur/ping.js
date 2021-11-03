@@ -8,9 +8,6 @@ module.exports.run = async (bot, message, args) => {
         Latence du bot: ${time}ms
         Latence de l'API: ${Math.round(bot.ws.ping)}ms
         `);
-        console.log(
-            `Le membre ${message.author.username} a effectué un ping. Résultat: ${time}ms`
-        );
     });
 };
 

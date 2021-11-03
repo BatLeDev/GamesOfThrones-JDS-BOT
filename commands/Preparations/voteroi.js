@@ -66,8 +66,7 @@ module.exports.run = async (bot, message, args) => {
 
     fichier[royaumeVote].Roi[GuildMemberMe.id]=GuildMemberVote.id // Ajoute dans le fichier qq chose du style Roi:  {"78452":"845"}
 
-    message.reply("Ton vote a bien été comptabilisé!")    
-    console.log(`${GuildMemberMe.displayName} à voté pour ${GuildMemberVote.displayName}`)
+    message.reply("Ton vote a bien été comptabilisé!")
 
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
     bot.emit("endVoteRoi") // Emmet le test de fin de vote

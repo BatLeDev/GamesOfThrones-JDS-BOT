@@ -63,9 +63,7 @@ module.exports.run = async (bot, message, args) => {
             ? `${GuildMember.displayName} viens de rejoindre le royaume de \`${args[0]}\``
             : `Vous vennez de rejoindre le royaume de \`${args[0]}\``
     ); // On répond a l'uttilisateur
-    console.log(
-        `${GuildMember.displayName} viens de rejoindre le royaume de ${args[0]}`
-    ); // On log la commande
+
 };
 
 module.exports.help = MESSAGES.COMMANDS.PREPARATIONS.JOIN;

@@ -34,24 +34,25 @@ module.exports.run = async (bot, message, args) => {
     var role = bot.hasRole(message.member.roles.cache, rolesId); // Récupère l'id du role du royaume
     var Royaume = royaumesList[rolesId.indexOf(role)]; // Récupère le nom du royaume
 
-    let zoneroyaume = []; // La liste des noms de zones
+    let zoneroyaume = []; // La liste des noms de zones du royaume
     for (let zone of fichier[Royaume].Zones) {
         zoneroyaume.push(zone.name);
     }
 
-    if (!zoneroyaume.includes(args[0])) {
+    if (!zoneroyaume.includes(args[0])) { // Cherche si la zone fait parti du royaume
         return await message.reply(
             `Vous devez choisir une zone de votre royaume !`
         );
     }
 
-    if (fichier[Royaume].Gallions<300) {
+    if (fichier[Royaume].Gallions<300) { // Test si assez de gallions
         return await message.reply(`Vous n'avez pas assez de Gallions !`)
     }
 
+    // Compte le nombre d'armée déja rattaché à cette zone
     var compteur=0
     for (let armee of fichier[Royaume].Armies) {
-        let zone=armee.name.split('|')[-2]
+        let zone=armee.name.split('|')[armee.name.length-2]
         if (zone==args[0])  {
             compteur+=1
         }
@@ -68,9 +69,9 @@ module.exports.run = async (bot, message, args) => {
         "pE":8
     }
 
-    fichier[Royaume].Armies.push(div)
-    fichier[Royaume].Gallions-=300
-    bot.updateStats(Royaume)
+    fichier[Royaume].Armies.push(div) // On ajoute la division a la liste du royaume
+    fichier[Royaume].Gallions-=300 // On retire le prix
+    bot.updateStats(Royaume) // On actualise les stats du royaume
     await message.reply(`Vous vennez de creer la division ${div.name} ! Cela vous a coûté 300 Gallions.`)
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
 };
