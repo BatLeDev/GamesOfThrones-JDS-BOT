@@ -12,9 +12,11 @@ module.exports = (bot) => {
         }
         return tab;
     };
+
     bot.sleep = (ms) => {
         return new Promise((resolve) => setTimeout(resolve, ms));
     };
+
     bot.hasRole = (rolesCache, rolesId) => {
         if (typeof rolesId == "string") {
             for (let role of rolesCache) {
@@ -33,4 +35,13 @@ module.exports = (bot) => {
         }
         return false;
     };
+
+    bot.moovezone = async (channelId, categorieId) => { 
+        const channel = await bot.channels.cache.get(channelId) // On récupère le channel
+
+        const nbChannelsInCatParent =  await bot.channels.cache.get(categorieId).children.size // On récupère la taille de la catégorie parent 
+        
+        await channel.setParent(categorieId) // On le deplace de catégorie
+        await channel.setPosition(nbChannelsInCatParent-1) // On le déplace à la bonne position dans la catégorie
+    }
 };

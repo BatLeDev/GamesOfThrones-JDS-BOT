@@ -82,6 +82,15 @@ const MESSAGES = {
 
                 usage: "<code_to_test>",
                 args: true,
+            },            
+            RESET: {
+                name: "reset",
+                description: "Reset la partie",
+                aliases: ["reset"],
+                category: "justdev",
+
+                usage: "",
+                args: false,
             },
             RESTART: {
                 name: "restart",
@@ -178,6 +187,15 @@ const MESSAGES = {
 
                 usage: "",
                 args: false,
+            },
+            ERASE: {
+                name: "erase",
+                description: "Permet de supprimer une armée",
+                aliases: ["erase"],
+                category: "partie",
+
+                usage: "<Non de l'armée> (Royaume)",
+                args: true,
             },
             NEXTPHASE: {
                 name: "nextphase",

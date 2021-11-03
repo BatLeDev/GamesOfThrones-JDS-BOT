@@ -33,7 +33,7 @@ module.exports = async (bot) => {
                         top: ZONEDESC[zone.name].top,
                     });
                 }
-                if (fichier[Royaume].Capitale != "") {
+                if (fichier[Royaume].Capitale !== null) {
                     composites.push({
                         input: `./Images/Couronne.png`,
                         left: ZONEDESC[fichier[Royaume].Capitale].left,
