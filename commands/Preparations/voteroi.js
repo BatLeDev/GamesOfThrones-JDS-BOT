@@ -1,8 +1,11 @@
 const { MESSAGES } = require("../../utils/constants");
-const { ROLEMJ, ROLEROI, ANNONCEJEU } = require("../../config");
+const { ROLEMJ, ROLEROI, ANNONCEJEU, ROLEJOUEUR } = require("../../config");
 const fs = require("fs");
  
 module.exports.run = async (bot, message, args) => {
+    if (!bot.hasRole(message.member.roles.cache, ROLEJOUEUR)) {
+        return await message.reply("Vous n'êtes pas dans la partie! Demmandez avec un MDJ pour rejoindre une partie.")
+    }
     // Verrifier si c'est une commande MJ
         // Récupère le royaume du joueur mentionné
         // Définit le joueur mentionné comme roi

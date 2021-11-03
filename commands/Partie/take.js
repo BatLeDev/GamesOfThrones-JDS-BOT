@@ -1,8 +1,11 @@
 const { MESSAGES } = require("../../utils/constants");
-const { ZONEDESC } = require("../../config");
+const { ZONEDESC, ROLEJOUEUR } = require("../../config");
 const fs = require("fs");
 
 module.exports.run = async (bot, message, args) => {
+    if (!bot.hasRole(message.member.roles.cache, ROLEJOUEUR)) {
+        return await message.reply("Vous n'êtes pas dans la partie! Demmandez avec un MDJ pour rejoindre une partie.")
+    }
     // Test si c'est un bon nom de zone
     // Test si elle est libre
     // Test assez d'argent
@@ -81,7 +84,7 @@ module.exports.run = async (bot, message, args) => {
         return await message.reply("Cette zone n'est pas libre, ou elle a encore des pR")
     }
 
-    //TODO deplacer la zone bot.moove(channelId, categorieId)
+    bot.moove(ZONEDESC[zoneobj.name].ChanId, fichier[royaumeName].CategorieId)
     
     fichier[RoyaumeName].Gallions-=200 // On retire le cout de la commande
     fichier[royaumeName].Zones.push(zonelibre);  // On ajoute la zone

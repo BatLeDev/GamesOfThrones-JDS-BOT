@@ -13,6 +13,7 @@
     "Arryn": {
         "RoleID": "702823145668739142",
         "ChannelStats" : "722186354234228807",
+        "CategorieId": "702838533785911316",
         "Joueurs": [],
         "Roi": {},
         "Diplomate": null,
@@ -35,6 +36,7 @@
     "Baratheon": {
         "RoleID": "702823256578719846",        
         "ChannelStats" : "722183044416405545",
+        "CategorieId": "702838599581696089",
         "Joueurs": [],
         "Roi": {},
         "Diplomate": null,
@@ -57,6 +59,7 @@
     "Greyjoy": {
         "RoleID": "702838713775816734",
         "ChannelStats" : "722184740567777350",
+        "CategorieId": "702838875965489172",
         "Joueurs": [],
         "Roi": {},
         "Diplomate": null,
@@ -79,6 +82,7 @@
     "Lannister": {
         "RoleID": "702822919511867411",
         "ChannelStats" : "722184076278235206",
+        "CategorieId": "702838112157433926",
         "Joueurs": [],
         "Roi": {},
         "Diplomate": null,
@@ -101,6 +105,7 @@
     "Martell": {
         "RoleID": "702823114320642128",
         "ChannelStats" : "718127886141489274",
+        "CategorieId": "702838212548231200",
         "Joueurs": [],
         "Roi": {},
         "Diplomate": null,
@@ -123,6 +128,7 @@
     "Stark": {
         "RoleID": "702822841443155988",
         "ChannelStats" : "722172807206928496",
+        "CategorieId": "702838064225058879",
         "Joueurs": [],
         "Roi": {},
         "Diplomate": null,
@@ -145,6 +151,7 @@
     "Targaryen": {
         "RoleID": "702822871491149844",
         "ChannelStats" : "722177755323695155",
+        "CategorieId": "702838156864651265",
         "Joueurs": [],
         "Roi": {},
         "Diplomate": null,
@@ -167,6 +174,7 @@
     "Tyrell": {
         "RoleID": "702823220331675648",
         "ChannelStats" : "722183643081998386",
+        "CategorieId": "702838483089227796",
         "Joueurs": [],
         "Roi": {},
         "Diplomate": null,

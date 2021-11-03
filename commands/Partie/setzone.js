@@ -52,7 +52,9 @@ module.exports.run = async (bot, message, args) => {
     }
 
     var zoneobj={}
-    for (let royaume of royaumesList) {      
+
+    // Cherche dans la liste des royaumes
+    for (let royaume of royaumesList) {   
         for (let iZone in fichier[royaume].Zones) {
             if (fichier[royaume].Zones[iZone].name == args[0]) {
                 zoneobj=fichier[royaume].Zones[iZone] // On récupère le nom et les pR
@@ -61,11 +63,19 @@ module.exports.run = async (bot, message, args) => {
         }
     }
 
+    //Cherche dans la liste des zones
+    for (let iZone in fichier.ZonesVides) {
+        if (fichier.ZonesVides[iZone].name == args[0]) {
+            zoneobj=fichier.ZonesVides[iZone] // On récupère le nom et les pR
+            fichier.ZonesVides.splice(iZone,1) // On supprime la zone
+        }
+    }
+
     fichier[royaumeName].Zones.push(zoneobj); // On ajoute la zone
     await message.reply(
         `La zone ${args[0]} appartiens maintenant au royaume de ${royaumeName}`
     );
-    //TODO Deplacer la zone
+    bot.moovezone(ZONEDESC[zoneobj.name].ChanId, fichier[royaumeName].CategorieId) // Déplace la zone dans la catégorie du royaume
 
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
 };

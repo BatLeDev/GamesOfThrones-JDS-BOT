@@ -1,7 +1,11 @@
 const { MESSAGES } = require("../../utils/constants");
+const { ROLEJOUEUR } = require("../../config");
 const fs = require('fs')
 
 module.exports.run = async (bot, message, args) => {
+    if (!bot.hasRole(message.member.roles.cache, ROLEJOUEUR)) {
+        return await message.reply("Vous n'êtes pas dans la partie! Demmandez avec un MDJ pour rejoindre une partie.")
+    }
     //Verrifier que c'est une zone du royaume
     //Verrifier que le royaume a assez de gallions
     //Générer le nom de la zone

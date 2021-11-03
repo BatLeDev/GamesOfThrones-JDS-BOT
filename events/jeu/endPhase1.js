@@ -1,4 +1,4 @@
-const { ANNONCEJEU } = require("../../config");
+const { ANNONCEJEU, ROLEJOUEUR } = require("../../config");
 const fs = require("fs");
 
 module.exports = async (bot, force=false) => {
@@ -31,9 +31,8 @@ module.exports = async (bot, force=false) => {
         await bot.channels.cache
             .get(ANNONCEJEU)
             .send(
-                "<@&702822785797324871> Tous les rois ont été votés, et ils ont tous choisit leur capitales, leur diplomates, et leur chef de guerre... Cela signifie donc que nous passons à la phase 2!"
+                `<@&${ROLEJOUEUR}> Tous les rois ont été votés, et ils ont tous choisit leur capitales, leur diplomates, et leur chef de guerre... Cela signifie donc que nous passons à la phase 2!`
             );
-        //TODO rennomer role joueur
         fichier.Phase = 2;
     }
 

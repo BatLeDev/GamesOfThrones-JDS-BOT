@@ -1,8 +1,11 @@
 const { MESSAGES } = require("../../utils/constants");
-const { ROLEMJ } = require("../../config");
+const { ROLEMJ, ROLEJOUEUR } = require("../../config");
 const fs = require("fs");
 
 module.exports.run = async (bot, message, args) => {
+    if (!bot.hasRole(message.member.roles.cache, ROLEJOUEUR)) {
+        return await message.reply("Vous n'êtes pas dans la partie! Demmandez avec un MDJ pour rejoindre une partie.")
+    }
     // Trouver le royaume
     // Trouver l'armée et la supprime
 
