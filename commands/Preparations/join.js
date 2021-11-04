@@ -24,14 +24,15 @@ module.exports.run = async (bot, message, args) => {
         "702823220331675648",
     ];
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
+    const mdj = bot.hasRole(message.member.roles.cache, ROLEMJ)
 
-    if (fichier.Phase != 0)
+    if (fichier.Phase != 0&&!mdj)
         return message.reply(
-            "Une partie est déja en cour, veuillez demmander a un <@&702822606696349776> de vous rajouter dans la partie"
+            `Une partie est déja en cour, veuillez demmander a un <@&${ROLEMJ}> de vous rajouter dans la partie`
         );
 
     if (args.length == 2) {
-        if (!bot.hasRole(message.member.roles.cache, ROLEMJ))
+        if (!mdj) // Test si c'est un maitre du jeu
             return await message.reply(
                 `Tu ne peut utiliser qu'un seul argument !`
             );

@@ -68,7 +68,7 @@ module.exports = async (bot, forceVote = false) => {
                         .get(newRoi)
                         .roles.add(ROLEROI);
                     await channel.send(
-                        `Bravo ! <@${newRoi}> deviens roi de ${royaume} (élus par le bot, suite à la fin du temps imparti) !`
+                        `Bravo ! <@${newRoi}> deviens roi de **${royaume}** (élus par le bot, suite à la fin du temps imparti) !`
                     );
                     fichier[royaume].Roi = newRoi;
                 }

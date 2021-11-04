@@ -24,16 +24,16 @@ module.exports = async (bot) => {
                 "Tyrell",
             ];
             
-            composites = [];
-            for (let Royaume of royaumesList) {
-                for (let zone of fichier[Royaume].Zones) {
-                    composites.push({
-                        input: `./Images/Blason-${Royaume}.png`,
-                        left: ZONEDESC[zone.name].left,
+            composites = []; // La variable qui comprend la liste des images a coller
+            for (let Royaume of royaumesList) { // Pour chaque royaume
+                for (let zone of fichier[Royaume].Zones) { // Pour chaque zone de chaque royaume
+                    composites.push({ // On ajoute l'image a la composition
+                        input: `./Images/Blason-${Royaume}.png`, // Le nom
+                        left: ZONEDESC[zone.name].left, // La localisaiton
                         top: ZONEDESC[zone.name].top,
                     });
                 }
-                if (fichier[Royaume].Capitale !== null) {
+                if (fichier[Royaume].Capitale !== null) { // Si la capitale a été définie
                     composites.push({
                         input: `./Images/Couronne.png`,
                         left: ZONEDESC[fichier[Royaume].Capitale].left,
@@ -55,7 +55,8 @@ module.exports = async (bot) => {
                         .toFile("output.png")
                 );
 
-            await bot.channels.cache.get(ANNONCEJEU).send("Carte du jour: ", {
+            await bot.channels.cache.get(ANNONCEJEU).send({
+                content: "Carte du jour:",
                 files: ["output.png"],
             });
         }
