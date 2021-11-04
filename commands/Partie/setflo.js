@@ -77,9 +77,9 @@ module.exports.run = async (bot, message, args) => {
     fichier[Royaume].Gallions-=100
     fichier[Royaume].Bois-=100
     fichier[Royaume].Pierre-=150
-    bot.updateStats(Royaume)
     await message.reply(`Vous vennez de creer la flotte ${flo.name} ! Cela vous a coûté 100 Gallions, 100 Bois et 150 pierre.`)
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
+    bot.updateStats(Royaume) // On actualise les stats du royaume
 };
 
 module.exports.help = MESSAGES.COMMANDS.PARTIE.SETFLO;

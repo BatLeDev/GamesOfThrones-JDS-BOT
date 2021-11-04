@@ -60,7 +60,7 @@ module.exports.run = async (bot, message, args) => {
     }
 
     if (fichier.Phase!=1) return message.reply("Il faut être dans la phase 1 pour pouvoir commencer a voter votre roi!") // Si on est pas dans la phase de vote, on skip
-    if (typeof fichier[royaumeVote].Roi == "string") return message.reply("Votre roi a déja été élu !")
+    if (typeof fichier[royaumeVote].Roi == "string") return message.reply("Votre roi a déjà été élu !")
 
     GuildMemberMe = message.member; // On récupère le membre
     roleMe = bot.hasRole(GuildMemberMe.roles.cache, rolesId);  // On cherche son role de royaume

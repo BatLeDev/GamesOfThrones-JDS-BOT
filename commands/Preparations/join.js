@@ -49,7 +49,7 @@ module.exports.run = async (bot, message, args) => {
         await message.reply(
             args.length == 2
                 ? `${member} est déjà dans un royaume! Faites **${PREFIX}leave ${member}**`
-                : `Vous avez déjà rejoins un royaume! Faites **${PREFIX}leave**`
+                : `Vous avez déjà rejoint un royaume! Faites **${PREFIX}leave**`
         ); // Verrifie que l'utilisaeur n'est pas deja dans un royaume
         return;
     }

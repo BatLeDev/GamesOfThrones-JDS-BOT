@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args) => {
 
     if (!bot.hasRole(message.member.roles.cache, ROLEMJ))
         return await message.reply(
-            `Tu n'a pas la permission de faire cette commande !`
+            `Tu n'as pas la permission de faire cette commande !`
         );
 
     royaumesList = [

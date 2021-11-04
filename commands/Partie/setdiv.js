@@ -75,9 +75,9 @@ module.exports.run = async (bot, message, args) => {
 
     fichier[Royaume].Armies.push(div) // On ajoute la division a la liste du royaume
     fichier[Royaume].Gallions-=300 // On retire le prix
-    bot.updateStats(Royaume) // On actualise les stats du royaume
     await message.reply(`Vous vennez de creer la division ${div.name} ! Cela vous a coûté 300 Gallions.`)
-    fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
+    fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier    
+    bot.updateStats(Royaume) // On actualise les stats du royaume
 };
 
 module.exports.help = MESSAGES.COMMANDS.PARTIE.SETDIV;

@@ -1,7 +1,6 @@
 const { MESSAGES } = require("../../utils/constants");
 const { ZONEDESC, ROLEJOUEUR } = require("../../config");
 const sharp = require("sharp"); // Module de moditication d'image
-const fichier = require("../../partieTest.json");
 
 module.exports.run = async (bot, message) => {
     if (!bot.hasRole(message.member.roles.cache, ROLEJOUEUR)) {
@@ -20,6 +19,7 @@ module.exports.run = async (bot, message) => {
         "Tyrell",
     ];
 
+    let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
     composites = []; // La variable qui comprend la liste des images a coller
     for (let Royaume of royaumesList) { // Pour chaque royaume
         for (let zone of fichier[Royaume].Zones) { // Pour chaque zone de chaque royaume

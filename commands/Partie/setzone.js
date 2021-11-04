@@ -73,7 +73,7 @@ module.exports.run = async (bot, message, args) => {
 
     fichier[royaumeName].Zones.push(zoneobj); // On ajoute la zone
     await message.reply(
-        `La zone ${args[0]} appartiens maintenant au royaume de ${royaumeName}`
+        `La zone ${args[0]} appartient maintenant au royaume de ${royaumeName}`
     );
     bot.moovezone(ZONEDESC[zoneobj.name].ChanId, fichier[royaumeName].CategorieId) // Déplace la zone dans la catégorie du royaume
 

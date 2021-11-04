@@ -7,6 +7,13 @@ module.exports.run = async (bot, message) => {
     }
 
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
+    if (fichier.Phase == 1) { // Annonce le passage a la phase 3
+        await bot.channels.cache
+            .get(ANNONCEJEU)
+            .send("<@&702822785797324871> La phase 2 commence !");
+        fichier.Phase = 2;
+    }
+
     if (fichier.Phase == 2) { // Annonce le passage a la phase 3
         await bot.channels.cache
             .get(ANNONCEJEU)
