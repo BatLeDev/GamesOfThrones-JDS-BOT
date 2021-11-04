@@ -1,10 +1,11 @@
 const { MESSAGES } = require("../../utils/constants");
-const { ZONEDESC, ROLEJOUEUR } = require("../../config");
+const { ZONEDESC, ROLEJOUEUR, ROLEMJ } = require("../../config");
 const sharp = require("sharp"); // Module de moditication d'image
+const fs = require("fs");
 
 module.exports.run = async (bot, message) => {
     if (!bot.hasRole(message.member.roles.cache, ROLEJOUEUR)) {
-        return await message.reply("Vous n'êtes pas dans la partie! Demmandez avec un MDJ pour rejoindre une partie.")
+        return await message.reply(`Vous n'êtes pas dans la partie! Demmandez à un <@&${ROLEMJ} pour rejoindre une partie.`)
     }
 
     const msgtemp = await message.channel.send("Génération de la carte..."); // Affiche un message temporaire durant la génération de la carte
