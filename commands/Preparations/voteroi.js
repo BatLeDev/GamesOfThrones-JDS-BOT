@@ -1,78 +1,75 @@
 const { MESSAGES } = require("../../utils/constants");
-const { ROLEMJ, ROLEROI, ANNONCEJEU, ROLEJOUEUR } = require("../../config");
 const fs = require("fs");
- 
-module.exports.run = async (bot, message, args) => {
-    if (!bot.hasRole(message.member.roles.cache, ROLEJOUEUR)) {
-        return await message.reply("Vous n'êtes pas dans la partie! Demmandez avec un MDJ pour rejoindre une partie.")
-    }
-    // Verrifier si c'est une commande MJ
-        // Récupère le royaume du joueur mentionné
-        // Définit le joueur mentionné comme roi
-    
-    // Verrifier que le joueur voté appartiens à l'equipe de l'auteur
-    // Vérifie si un roi est pas déja élu
-    // Rajoute/modifie la voie, avec son auteur
-    
-    royaumesList = [
-        "Arryn",
-        "Baratheon",
-        "Greyjoy",
-        "Lannister",
-        "Martell",
-        "Stark",
-        "Targaryen",
-        "Tyrell",
-    ];
-    rolesId = [
-        "702823145668739142",
-        "702823256578719846",
-        "702838713775816734",
-        "702822919511867411",
-        "702823114320642128",
-        "702822841443155988",
-        "702822871491149844",
-        "702823220331675648",
-    ];
+
+module.exports.execute = async (bot, interaction) => {
+
+    if (!bot.hasRole(interaction.member.roles.cache, bot.config.ROLEJOUEUR)) {
+        return await interaction.reply({
+            content: `Vous n'êtes pas dans la partie! Demmandez à un <@&${bot.config.ROLEMJ}> pour rejoindre une partie.`,            
+		    ephemeral: true,
+        })
+    };
 
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
 
-    if (message.mentions.members.size==0) {
-        return await message.reply("Vous devez mentionner un joueur !")
+    const GuildMemberVote = interaction.options.getMember("joueur"); // On récupère le membre choisit
+    const VoteForce = interaction.options.getBoolean("force"); // On récupère le membre choisit
+    const RoleVote = bot.hasRole(GuildMemberVote.roles.cache, bot.config.ROYAUMEID);  // On cherche son role de royaume
+    const RoyaumeVote = bot.config.ROYAUMELIST[bot.config.ROYAUMEID.indexOf(RoleVote)]; // On cherche le nom de son royaume
+
+    // Verrifie si c'est un maitre du jeu
+    if (bot.hasRole(interaction.member.roles.cache, bot.config.ROLEMJ)&&VoteForce) { 
+
+        const lastRoiId=fichier[RoyaumeVote].Roi // On récupère l'id de l'ancien roi
+        const GuildMemberLastRoi=interaction.guild.members.cache.get(lastRoiId); // On trouve le guildmember de l'ancien roi
+        GuildMemberLastRoi.roles.remove(bot.config.ROLEROI) // On retire le role roi
+
+        GuildMemberVote.roles.add(bot.config.ROLEROI) // On ajoute au joueur choisit le role roi
+        fichier[RoyaumeVote].Roi = GuildMemberVote.id // On save le nouveau roi
+
+        await bot.channels.cache.get(bot.config.ANNONCEJEU).send(`Le joueur <@${GuildMemberVote.id} est le nouveau roi du royaume de ${RoyaumeVote}!`)
+        await interaction.reply({ // On affiche au joueur 
+            content: `Vous vennez d'ajouter le roi manuellement`,
+            ephemeral: true,
+        });
+
+        fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
+        return;
     }
 
-    GuildMemberVote = message.mentions.members.first(); // On récupère le membre mentionné
-    roleVote = bot.hasRole(GuildMemberVote.roles.cache, rolesId);  // On cherche son role de royaume
-    royaumeVote = royaumesList[rolesId.indexOf(roleVote)]; // On cherche le nom de son royaume
-
-    // Commande MJ
-    if (args.length==2) {
-        if (args[1]=="force" && bot.hasRole(message.member.roles.cache, ROLEMJ)) { // Si c'est un mj, et que il force le vote
-            const ancienRoi=fichier[royaumeVote].Roi //TODO retirer l'ancien roi
-            GuildMemberVote.roles.add(ROLEROI)
-            fichier[royaumeVote].Roi = GuildMemberVote.id // On save le nouveau roi
-            fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
-
-            await bot.channels.cache.get(ANNONCEJEU).send(`Le joueur <@${GuildMemberVote.id} est le nouveau roi du royaume de ${royaumeVote}! *Mdj, retire le role a l'ancien roi*`)
-            return
-        }
-        // Si il n'a pas les permissions, on affiche rien
+    if (fichier.Phase!=1) { // Si on est pas dans la bonne phase
+        return await interaction.reply({ 
+            content: `Il faut être dans la phase 1 pour pouvoir commencer a voter votre roi !`,
+            ephemeral: true,
+        });
     }
 
-    if (fichier.Phase!=1) return message.reply("Il faut être dans la phase 1 pour pouvoir commencer a voter votre roi!") // Si on est pas dans la phase de vote, on skip
-    if (typeof fichier[royaumeVote].Roi == "string") return message.reply("Votre roi a déjà été élu !")
+    if (typeof fichier[RoyaumeVote].Roi == "string") { // Si le roi est déja voté
+        return await interaction.reply({ 
+            content: `Votre roi a déjà été élu !`,
+            ephemeral: true,
+        });
+    }
 
-    GuildMemberMe = message.member; // On récupère le membre
-    roleMe = bot.hasRole(GuildMemberMe.roles.cache, rolesId);  // On cherche son role de royaume
+    const GuildMemberMe = interaction.member; // On récupère le membre
+    const RoleMe = bot.hasRole(GuildMemberMe.roles.cache, bot.config.ROYAUMEID);  // On cherche son role de royaume
 
-    if (roleMe!=roleVote) return message.reply("Tu dois voter un joueur qui fait parti de ton royaume !")
+    if (RoleMe!=RoleVote) {
+        return await interaction.reply({ // On affiche au joueur 
+            content: `Tu dois voter un joueur qui fait parti de ton royaume !`,
+            ephemeral: true,
+        });
+    }
 
-    fichier[royaumeVote].Roi[GuildMemberMe.id]=GuildMemberVote.id // Ajoute dans le fichier qq chose du style Roi:  {"78452":"845"}
-
-    message.reply("Ton vote a bien été comptabilisé!")
+    fichier[RoyaumeVote].Roi[GuildMemberMe.id]=GuildMemberVote.id // Ajoute dans le fichier qq chose du style Roi:  {"idVoteur":"idVoté"}
 
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
     bot.emit("endVoteRoi") // Emmet le test de fin de vote
+
+    await interaction.reply({ // On affiche au joueur 
+        content: `Ton vote a bien été comptabilisé !`,
+        ephemeral: true,
+    });
 };
- 
+
 module.exports.help = MESSAGES.COMMANDS.PREPARATIONS.VOTEROI;

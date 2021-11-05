@@ -1,54 +1,57 @@
 const { MESSAGES } = require("../../utils/constants");
-const { ROLEMJ, ROLEROI } = require("../../config");
 const fs = require("fs");
 
-module.exports.run = async (bot, message, args) => {
-    let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
-    royaumesList = [
-        "Arryn",
-        "Baratheon",
-        "Greyjoy",
-        "Lannister",
-        "Martell",
-        "Stark",
-        "Targaryen",
-        "Tyrell",
-    ];
-    rolesId = [
-        "702823145668739142",
-        "702823256578719846",
-        "702838713775816734",
-        "702822919511867411",
-        "702823114320642128",
-        "702822841443155988",
-        "702822871491149844",
-        "702823220331675648",
-    ];
+module.exports.execute = async (bot, interaction) => {
+    if (!bot.hasRole(interaction.member.roles.cache, bot.config.ROLEJOUEUR)) {
+        return await interaction.reply({
+            content: `Vous n'êtes pas dans la partie! Demmandez à un <@&${bot.config.ROLEMJ}> pour rejoindre une partie.`,            
+		    ephemeral: true,
+        })
+    };
 
-    if (args.length == 2 && bot.hasRole(message.member.roles.cache, ROLEMJ)) { // Si c'est un maitre du jeu
-        // Récupère l'id du royaume
-        if (!royaumesList.includes(args[1]))
-            // Si c'est pas un nom de royaume
-            return await message.reply(
-                "Vous n'avez pas choisit un royaume valide, voici la liste des royaumes: `Arryn, Baratheon, Greyjoy, Lannister, Martell, Stark, Targaryen, Tyrell`"
-            );
-        Royaume=royaumesList.indexOf(args[1])
-        role=rolesId[royaumesList.indexOf(args[1])] // Récupère l'id du role du royaume
-    } else {
-        if (!bot.hasRole(message.member.roles.cache, ROLEROI)) message.reply("Vous n'avez pas la permission pour taper cette commande !")
-        role = bot.hasRole(message.member.roles.cache, rolesId); // Récupère l'id du role du royaume
-        Royaume = royaumesList[rolesId.indexOf(role)]; // Récupère le nom du royaume
+    let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
+    let Royaume = null
+
+    // Si c'est un moderateur
+    if (bot.hasRole(interaction.member.roles.cache, bot.config.ROLEMJ)) {
+        Royaume = interaction.options.getString("royaume"); // Récupère le nom du royaume, choisit par le modérateur 
     }
 
-    GuildMemberChoisi = message.mentions.members.first(); // On récupère le membre mentionné
-    roleVote = bot.hasRole(GuildMemberChoisi.roles.cache, rolesId);  // On cherche son role de royaume
+    if (!Royaume) { // Si le modérateur n'a pas choisit de royaume, c'est surement que c'est un joueur
+        if (bot.hasRole(interaction.member.roles.cache, bot.config.ROLEROI)) { // Verrifie que c'est un roi
 
-    if (role!=roleVote) return message.reply("Tu dois choisir un joueur qui fait parti de ton royaume !")
+            const role = bot.hasRole(interaction.member.roles.cache, bot.config.ROYAUMEID); // Récupère l'id du role du royaume
+            Royaume = bot.config.ROYAUMELIST[bot.config.ROYAUMEID.indexOf(role)]; // Récupère le nom du royaume, a la position de l'id du royaume
 
-    fichier[Royaume].ChefDeGuerre = GuildMemberChoisi.id
-    fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
-    message.reply(`Tu viens de choisir ${GuildMemberChoisi} comme chef de guerre`)
-    bot.emit("endPhase1")
+        } else { // Donc ce n'est pas un roi, et aucun royaume n'a été choisit par un maitre du jeu
+            return interaction.reply({ // Si aucune armée n'est suprimée
+                content: 'Il faut être un roi pour pouvoir executer cette commande !',
+                ephemeral: true,
+            })
+        }
+    }
+
+    const JoueurId = interaction.options.getMember("joueur").id // Récupère le joueurId choisie par l'utilisateur
+
+    if (!fichier[Royaume].Joueurs.includes(JoueurId)) { // Cherche si le joueur fait parti du royaume
+        return await interaction.reply({
+            content: `Vous devez choisir un joueur de votre royaume.`,            
+		    ephemeral: true,
+        });
+    }
+
+    fichier[Royaume].ChefDeGuerre = JoueurId;  //  On enregistre le nouveau chef de guerre
+    fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier    
+    bot.updateStats(Royaume) // On actualise les stats du royaume
+
+    // Annonce au roi
+	await interaction.reply({
+		content: 'Tu viens de choisir ton Chef de Guerre ! Zieute ton salon statistiques :wink: ',
+		ephemeral: true,
+	})
+
+    bot.emit("endPhase1")  // On test la fin de la phase 1
 };
+
 
 module.exports.help = MESSAGES.COMMANDS.PREPARATIONS.CHEFDEGUERRE;

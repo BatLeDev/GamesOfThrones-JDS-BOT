@@ -1,11 +1,14 @@
 const { MESSAGES } = require("../../utils/constants");
-const { ZONEDESC, ROLEJOUEUR } = require("../../config");
 const fs = require("fs");
 
-module.exports.run = async (bot, message, args) => {
-    if (!bot.hasRole(message.member.roles.cache, ROLEJOUEUR)) {
-        return await message.reply("Vous n'êtes pas dans la partie! Demmandez avec un MDJ pour rejoindre une partie.")
+module.exports.execute = async (bot, interaction) => {
+    if (!bot.hasRole(interaction.member.roles.cache, bot.config.ROLEJOUEUR)) { //Verrifie que le joueur est dans la partie
+        return await interaction.reply({
+            content: `Vous n'êtes pas dans la partie! Demmandez à un <@&${bot.config.ROLEMJ}> pour rejoindre une partie.`,            
+            ephemeral: true,
+        })
     }
+
     // Test si c'est un bon nom de zone
     // Test si elle est libre
     // Test assez d'argent
@@ -13,85 +16,79 @@ module.exports.run = async (bot, message, args) => {
     // Moove la zone
 
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
-    royaumesList = [
-        "Arryn",
-        "Baratheon",
-        "Greyjoy",
-        "Lannister",
-        "Martell",
-        "Stark",
-        "Targaryen",
-        "Tyrell"
-    ];
-    rolesId = [
-        "702823145668739142",
-        "702823256578719846",
-        "702838713775816734",
-        "702822919511867411",
-        "702823114320642128",
-        "702822841443155988",
-        "702822871491149844",
-        "702823220331675648",
-    ];
 
-    const listZones = Object.keys(ZONEDESC); // Récupère la liste des noms de zones 
-    if (!listZones.includes(args[0])) { // Test si l'argument est un nom de zone
-        return await message.reply(
-            "Vous devez choisir un nom de zone valide !"
-        );
+    const listZones = Object.keys(bot.config.ZONEDESC); // Récupère la liste des noms de zones 
+    
+    const role = bot.hasRole(interaction.member.roles.cache, bot.config.ROYAUMEID); // Récupère l'id du role du royaume
+    const Royaume = bot.config.ROYAUMELIST[bot.config.ROYAUMEID.indexOf(role)]; // Récupère le nom du royaume, a la position de l'id du royaume
+    const Zone = interaction.options.getString("zone") // Récupère la zone choisie par l'utilisateur
+
+    if (!listZones.includes(Zone)) { // Test si l'argument est un nom de zone
+        return await interaction.reply({
+            content: `Vous devez choisir un nom de zone valide`,            
+		    ephemeral: true,
+        });
     }
 
-    // On cherche le royaume
-    role = bot.hasRole(message.member.roles.cache, rolesId); // Récupère l'id du role du royaume
-    RoyaumeName = royaumesList[rolesId.indexOf(role)]; // Récupère le nom du royaume
 
-    if (fichier[RoyaumeName].Gallions<200) { // Test assez d'argent
-        return await message.reply("Vous n'avez pas assez de Gallions !")
+    if (fichier[Royaume].Gallions<200) { // Test assez d'argent
+        return await interaction.reply({
+            content: `Vous n'avez pas assez de Gallions`,            
+		    ephemeral: true,
+        });
     }
     
     // Test la présence d'une armée
     let armeePresence=false // Passe a vrai si une armée est présente sur la zone
-    for (let armee of fichier[RoyaumeName].Armies) {
-        if (armee.loc==args[0])  {
+    for (let armee of fichier[Royaume].Armies) {
+        if (armee.loc==Zone)  {
             armeePresence=true
         }
     }
     if (armeePresence) {
-        return await message.reply("Vous devez avoir une armée présente sur la zone pour pouvoir la prendre")
+        return await interaction.reply({
+            content: "Vous devez avoir une armée présente sur la zone pour pouvoir la prendre",            
+		    ephemeral: true,
+        });
     }
 
     // Trouve la zone
     zonelibre=false // Passe a vrais si la zone est libre
 
-    // On cherhce dans les zones vites 
+    // On cherhce dans les zones vides 
     for (let izone in fichier.ZonesVides) {
-        if (fichier.ZonesVides[izone].name==args[0]&&zone.pr==0) {
+        if (fichier.ZonesVides[izone].name==Zone) {
             zonelibre=fichier.ZonesVides[izone] // Récupère l'object de la zone
-            fichier.ZonesVides.splice(iZone,1)  // Retire la zone
+            fichier.ZonesVides.splice(izone,1)  // Retire la zone
         }
     }
 
     // On cherhe dans les zones possédés par des royaumes
-    for (let royaume of royaumesList) {
+    for (let royaume of bot.config.ROYAUMELIST) {
         for (let izone in fichier[royaume].Zones) {
-            if (fichier[royaume].Zones[izone].name==args[0]&&zone.pr==0) {
+            if (fichier[royaume].Zones[izone].name==Zone&&fichier[royaume].Zones[izone].pR==0) { // Si la zone n'a plus de pR
                 zonelibre=fichier[royaume].Zones[izone] // Récupère l'object de la zone
-                fichier[royaume].Zones.splice(iZone,1) // Retire la zone
+                fichier[royaume].Zones.splice(izone,1) // Retire la zone
             }
         }
     }
     if (zonelibre===false) { // Si la zone n'est pas libre, on affiche une erreure 
-        return await message.reply("Cette zone n'est pas libre, ou elle a encore des pR")
+        return await interaction.reply({
+            content: "Cette zone n'est pas libre, ou elle a encore des pR",            
+		    ephemeral: true,
+        });
     }
 
-    bot.moove(ZONEDESC[zoneobj.name].ChanId, fichier[royaumeName].CategorieId)
-    
-    fichier[RoyaumeName].Gallions-=200 // On retire le cout de la commande
-    fichier[royaumeName].Zones.push(zonelibre);  // On ajoute la zone
-    bot.updateStats(Royaume)
+    await interaction.reply({
+        content: `Vous vennez de prendre la zone ${Zone}`,            
+        ephemeral: false,
+    });
 
-    await message.reply(`Vous vennez de prendre la zone ${args[0]}`)
+    fichier[Royaume].Gallions-=200 // On retire le cout de la commande
+    fichier[Royaume].Zones.push(zonelibre);  // On ajoute la zone
+    bot.moovezone(bot.config.ZONEDESC[zonelibre.name].ChanId, fichier[Royaume].CategorieId)    
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
+    bot.updateStats(Royaume)
 };
 
 module.exports.help = MESSAGES.COMMANDS.PARTIE.TAKE;

@@ -1,69 +1,46 @@
 const { MESSAGES } = require("../../utils/constants");
-const { PREFIX, ROLEMJ, ROLEJOUEUR } = require("../../config");
 const fs = require("fs");
 
-module.exports.run = async (bot, message, args) => {
-    royaumesList = [
-        "Arryn",
-        "Baratheon",
-        "Greyjoy",
-        "Lannister",
-        "Martell",
-        "Stark",
-        "Targaryen",
-        "Tyrell",
-    ];
-    rolesId = [
-        "702823145668739142",
-        "702823256578719846",
-        "702838713775816734",
-        "702822919511867411",
-        "702823114320642128",
-        "702822841443155988",
-        "702822871491149844",
-        "702823220331675648",
-    ];
+module.exports.execute = async (bot, interaction) => {
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
-    const mdj = bot.hasRole(message.member.roles.cache, ROLEMJ)
 
-    if (fichier.Phase != 0&&!mdj)
-        return message.reply(
-            `Une partie est déja en cour, veuillez demmander a un <@&${ROLEMJ}> de vous rajouter dans la partie`
-        );
+    const Royaume = interaction.options.getString("royaume"); // Récupère le royaume
+    var Joueur = null;
 
-    if (args.length == 2) {
-        if (!mdj) // Test si c'est un maitre du jeu
-            return await message.reply(
-                `Tu ne peut utiliser qu'un seul argument !`
+    if (bot.hasRole(interaction.member.roles.cache, bot.config.ROLEMJ)) { // Si c'est un maitre du jeu
+        Joueur = interaction.options.getMember("joueur");
+    };
+
+    if (!Joueur) { // Si c'est pas un modérateur
+        if (fichier.Phase != 0) { // Si une partie est deja en cour (si un mdj essaye de rejoindre en cour de partie, il doit mettre son pseudo en argument !)
+            return message.reply(
+                `Une partie est déja en cour, veuillez demmander a un <@&${bot.config.ROLEMJ}> de vous rajouter dans la partie`
             );
-        GuildMember = message.mentions.members.first();
-    } else {
-        GuildMember = message.member;
-    }
-    if (!royaumesList.includes(args[0]))
-        return await message.reply(
-            "Vous n'avez pas choisit un royaume valide, voici la liste des royaumes: `Arryn, Baratheon, Greyjoy, Lannister, Martell, Stark, Targaryen, Tyrell`"
-        );
+        }
+        Joueur = interaction.member
+    };
 
-    if (bot.hasRole(GuildMember.roles.cache, rolesId)) {
-        await message.reply(
-            args.length == 2
-                ? `${member} est déjà dans un royaume! Faites **${PREFIX}leave ${member}**`
-                : `Vous avez déjà rejoint un royaume! Faites **${PREFIX}leave**`
-        ); // Verrifie que l'utilisaeur n'est pas deja dans un royaume
-        return;
+    if (bot.hasRole(Joueur.roles.cache, bot.config.ROYAUMEID)) { // Test si le joueur est deja dans un royaume
+        return await interaction.reply({ // On affiche au joueur 
+            content: Joueur !== null 
+                ? `${Joueur} est déjà dans un royaume! Faites **/leave ${Joueur}**`
+                : `Vous avez déjà rejoint un royaume! Faites **/leave**`,
+            ephemeral: true,
+        });
     }
-    await GuildMember.roles.add(fichier[args[0]].RoleID); // On ajoute le role de royaume
-    await GuildMember.roles.add(ROLEJOUEUR); // On ajoute le role joueur 
 
-    fichier[args[0]].Joueurs.push(GuildMember.id); // Ajoute a notre fichier data
+    await Joueur.roles.add(fichier[Royaume].RoleID); // On ajoute le role de royaume
+    await Joueur.roles.add(bot.config.ROLEJOUEUR); // On ajoute le role joueur 
+
+    fichier[Royaume].Joueurs.push(Joueur.id); // Ajoute a notre fichier data
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
 
-    await message.reply(
-        args.length == 2
-            ? `${GuildMember.displayName} viens de rejoindre le royaume de \`${args[0]}\``
-            : `Vous vennez de rejoindre le royaume de \`${args[0]}\``
-    ); // On répond a l'uttilisateur
+    await interaction.reply({ // On affiche au joueur 
+        content: Joueur !== null 
+            ? `${Joueur.displayName} viens de rejoindre le royaume de \`${Royaume}\``
+            : `Vous vennez de rejoindre le royaume de \`${Royaume}\``,
+        ephemeral: false,
+    });
 
 };
 

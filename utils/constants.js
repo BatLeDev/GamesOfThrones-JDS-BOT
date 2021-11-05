@@ -1,322 +1,356 @@
 const MESSAGES = {
     COMMANDS: {
-        AUTRE: {
-            HELP: {
-                name: "help",
-                description:
-                    "Affiche la liste des commandes, ou des informations sur une seule.",
-                aliases: ["h"],
-                category: "autre",
-
-                usage: "(command_name)",
-                args: false,
-            },
-            SUGGESTION: {
-                name: "suggestion",
-                description: "Permet de faire une suggestion.",
-                aliases: ["suggest"],
-                category: "autre",
-
-                usage: "<votre suggestion>",
-                args: true,
-            },
-        },
         EMBEDS: {
-            RULEARGENT: {
-                name: "ruleArgent",
-                description:
-                    "Affiche les embeds Royaume",
-                aliases: ["ruleargent"],
-                category: "embeds",
-
-                usage: "",
-                args: false,
+            RULEARGENT:  {
+                name: "ruleargent",
+                description: "Affiche les embeds",
             },
-            RULEARMEE: {
-                name: "ruleArmée",
-                description:
-                    "Affiche les embeds Royaume",
-                aliases: ["rulearmee","rulearmée","rulearmées"],
-                category: "embeds",
-
-                usage: "",
-                args: false,
-            },            
-            RULEMARCHE: {
-                name: "ruleMarché",
-                description:
-                    "Affiche les embeds marché d'Icar le Gar",
-                aliases: ["rulemarche"],
-                category: "embeds",
-
-                usage: "",
-                args: false,
+            RULEARMEE:  {
+                name: "rulearmee",
+                description: "Affiche les embeds",
             },
-            RULEROYAUMES: {
-                name: "ruleRoyaume",
-                description:
-                    "Affiche les embeds Royaume",
-                aliases: ["ruleroyaumes","ruleroyaume"],
-                category: "embeds",
-
-                usage: "",
-                args: false,
+            RULECARTE:  {
+                name: "rulecarte",
+                description: "Affiche les embeds",
             },
-            RULECARTE: {
-                name: "ruleCarte",
-                description:
-                    "Affiche l'embed des regles carte",
-                aliases: ["rulecarte", "rcarte"],
-                category: "embeds",
-
-                usage: "",
-                args: false,
+            RULECOMBAT:  {
+                name: "rulecombat",
+                description: "Affiche les embeds",
+            },
+            RULEEVENTS:  {
+                name: "ruleevents",
+                description: "Affiche les embeds",
+            },
+            RULEMARCHE:  {
+                name: "rulemarche",
+                description: "Affiche les embeds",
+            },
+            RULEPHASE:  {
+                name: "rulephase",
+                description: "Affiche les embeds",
+            },
+            RULEROYAUMES:  {
+                name: "ruleroyaume",
+                description: "Affiche les embeds",
             },
         },
         JUSTDEV: {
-            EVAL: {
-                name: "eval",
-                description: "Renvoi un code javascript testé",
-                aliases: ["eval"],
-                category: "justdev",
-
-                usage: "<code_to_test>",
-                args: true,
-            },            
-            RESET: {
-                name: "reset",
-                description: "Reset la partie",
-                aliases: ["reset"],
-                category: "justdev",
-
-                usage: "",
-                args: false,
-            },
             RESTART: {
                 name: "restart",
-                description: "Redémarre le bot.",
-                aliases: ["reload"],
-                category: "justdev",
-
-                usage: "",
-                args: false,
-            },
-            TEST: {
-                name: "test",
-                description: "Renvoi un code javascript testé",
-                aliases: ["t"],
-                category: "justdev",
-
-                usage: "",
-                args: false,
+                description: "Redemarre le bot",
             },
         },
         MODERATEUR: {
             CLEAR: {
                 name: "clear",
-                description:
-                    "Permet de supprimé des messages en grande quantité.",
-                aliases: ["suppr"],
-                category: "moderateur",
-
-                usage: "<nombre de messages>",
-                args: true,
+                description: "Supprime plusieurs messages",
+                options: [
+                    {
+                        type: 10,
+                        name: "nombre",
+                        description: "Le nombre de message a supprimer",
+                        required: true,
+                    },
+                ],
             },
             PING: {
                 name: "ping",
-                description: "Permet de voir le temps de latence du bot.",
-                aliases: ["latence"],
-                category: "moderateur",
-
-                usage: "",
-                args: false,
+                description: "Pong!",
             },
-            POLL: {
-                name: "poll",
-                description: "Créé un sondage.",
-                aliases: ["sd"],
-                category: "moderateur",
-
-                usage: '<"question"> <"plusieurs options séparés par des virgules"> (temps)',
-                args: true,
+            RESET: {
+                name: "reset",
+                description: "Remet à 0 les fichiers de la partie",
             },
             SAY: {
                 name: "say",
-                description: "Permet d'envoyer un message sous le nom du bot.",
-                aliases: ["s"],
-                category: "moderateur",
-
-                usage: "<message>",
-                args: true,
-            },
-            VOCMUTE: {
-                name: "vocMute",
-                description: "Rend muet tous les membres du salon vocal",
-                aliases: ["vocemute", "vm"],
-                category: "moderateur",
-
-                usage: "",
-                args: false,
-            },
-            VOCUNMUTE: {
-                name: "vocUnmute",
-                description: "Rend la parole à tous les membres du salon vocal",
-                aliases: ["vocunmute", "vum"],
-                category: "moderateur",
-
-                usage: "",
-                args: false,
-            },
-            YESORNO: {
-                name: "yesorno",
-                description:
-                    "Créé un sondage avec comme possibilité de réponse **Oui** et **Non**.",
-                aliases: ["yn", "vote"],
-                category: "moderateur",
-
-                usage: '<"question"> (temps)',
-                args: true,
+                description: "Répète votre message",
+                options: [
+                    {
+                        type: 3,
+                        name: "message",
+                        description: "Le message à répeter",
+                        required: true,
+                    },
+                ],
             },
         },
         PARTIE: {
             CARTE: {
                 name: "carte",
-                description: "Permet d'afficher la carte",
-                aliases: ["carte"],
-                category: "partie",
-
-                usage: "",
-                args: false,
+                description: "Affiche la carte",
             },
             ERASE: {
                 name: "erase",
                 description: "Permet de supprimer une armée",
-                aliases: ["erase"],
-                category: "partie",
-
-                usage: "<Non de l'armée> (Royaume)",
-                args: true,
+                options: [
+                    {
+                        type: 3,
+                        name: "armee",
+                        description: "L'armée à supprimer",
+                        required: true,
+                    },                    
+                    {
+                        type: 3,
+                        name: "royaume",
+                        description: "Le royaume propriétaire de l'armée",
+                        required: false,
+                        choices: [
+                            {name:"Arryn", value:"Arryn"},
+                            {name:"Baratheon", value:"Baratheon"},
+                            {name:"Greyjoy", value:"Greyjoy"},
+                            {name:"Lannister", value:"Lannister"},
+                            {name:"Martell", value:"Martell"},
+                            {name:"Stark", value:"Stark"},
+                            {name:"Targaryen", value:"Targaryen"},
+                            {name:"Tyrell", value:"Tyrell"}
+                        ]
+                    },
+                ],
             },
             NEXTPHASE: {
                 name: "nextphase",
-                description: "Afficher le message de la phase suivante",
-                aliases: ["np","phase"],
-                category: "partie",
-
-                usage: "",
-                args: false,
+                description: "Passe a la phase suivante (si possible)",
             },
             SETDIV: {
                 name: "setdiv",
-                description: "achète et installe une division de base dans la zone choisie",
-                aliases: ["setdiv"],
-                category: "partie",
-
-                usage: "<zone>",
-                args: true,
+                description: "Creer une division dans la zone choisie",
+                options: [
+                    {
+                        type: 3,
+                        name: "zone",
+                        description: "Une zone de votre royaume",
+                        required: true,
+                    },
+                ],
             },
             SETFLO: {
                 name: "setflo",
-                description: "achète et installe une flotte de base dans la zone choisie",
-                aliases: ["setflo"],
-                category: "partie",
-
-                usage: "<zone>",
-                args: true,
+                description: "Creer une flotte dans la zone choisie",
+                options: [
+                    {
+                        type: 3,
+                        name: "zone",
+                        description: "Une zone de votre royaume",
+                        required: true,
+                    },
+                ],
             },
             SETZONE: {
-                name: "setZone",
-                description: "Définie une zone à un royaume",
-                aliases: ["setzone","sz"],
-                category: "partie",
-
-                usage: "<zone> < @Royaume ou Nom du royaume >",
-                args: true,
+                name: "setzone",
+                description: "Change la propriété d'une zone",
+                options: [
+                    {
+                        type: 3,
+                        name: "zone",
+                        description: "Une zone quelconque",
+                        required: true,
+                    },                    
+                    {
+                        type: 3,
+                        name: "royaume",
+                        description: "Le futur royaume proprietaire de la zone",
+                        required: true,
+                        choices: [
+                            {name:"Arryn", value:"Arryn"},
+                            {name:"Baratheon", value:"Baratheon"},
+                            {name:"Greyjoy", value:"Greyjoy"},
+                            {name:"Lannister", value:"Lannister"},
+                            {name:"Martell", value:"Martell"},
+                            {name:"Stark", value:"Stark"},
+                            {name:"Targaryen", value:"Targaryen"},
+                            {name:"Tyrell", value:"Tyrell"}
+                        ]
+                    },
+                ],
             },
             TAKE: {
                 name: "take",
-                description: "permet à un royaume de prendre une zone, à condition qu’elle soit occupée par personne, ou alors qu’elle n’ai plus de pR. Pour rappel, la commande coûte **200 Gallions**.",
-                aliases: ["take"],
-                category: "partie",
-
-                usage: "<zone>",
-                args: true,
+                description: "Pour prendre une zone",
+                options: [
+                    {
+                        type: 3,
+                        name: "zone",
+                        description: "Un nom de zone",
+                        required: true,
+                    },
+                ],
+            },            
+            UPDATESTATS: {
+                name: "updatestats",
+                description: "Actualise tous les stats",
             },
             UPGRADE: {
                 name: "upgrade",
-                description: "Permet d'améliorer une armée",
-                aliases: ["upgrade"],
-                category: "partie",
-
-                usage: "<Nom de l'armée> (A,D,ou E)",
-                args: true,
+                description: "Pour amméliorer une armée",
+                options: [
+                    {
+                        type: 3,
+                        name: "namearmy",
+                        description: "Le nom de l'armée",
+                        required: true,
+                    },                    
+                    {
+                        type: 3,
+                        name: "specification",
+                        description: "La spécification de votre armée",
+                        required: false,
+                        choices: [
+                            {name:"A", value:"A"},
+                            {name:"D", value:"D"},
+                            {name:"E", value:"E"},
+                        ]
+                    },
+                ],
             },
         },
         PREPARATIONS: {
             CAPITALE: {
                 name: "capitale",
-                description: "Permet à un roi de choisir sa capitale.",
-                aliases: ["capitale","setcapitale"],
-                category: "preparations",
-
-                usage: "<zone> (royaume)",
-                args: true,
+                description: "Définnit la captale du royaume",
+                options: [
+                    {
+                        type: 3,
+                        name: "zone",
+                        description: "Le nom de la zone",
+                        required: true,
+                    },                    
+                    {
+                        type: 3,
+                        name: "royaume",
+                        description: "Le royaume où la capitale va être changer",
+                        required: false,
+                        choices: [
+                            {name:"Arryn", value:"Arryn"},
+                            {name:"Baratheon", value:"Baratheon"},
+                            {name:"Greyjoy", value:"Greyjoy"},
+                            {name:"Lannister", value:"Lannister"},
+                            {name:"Martell", value:"Martell"},
+                            {name:"Stark", value:"Stark"},
+                            {name:"Targaryen", value:"Targaryen"},
+                            {name:"Tyrell", value:"Tyrell"}
+                        ]
+                    },
+                ],
             },
             CHEFDEGUERRE: {
-                name: "ChefDeGuerre",
-                description: "Permet à un roi de choisir son chef de guerre",
-                aliases: ["chefdeguerre","cdg"],
-                category: "preparations",
-
-                usage: "<@joueur> (royaume)",
-                args: true,
+                name: "chefdeguerre",
+                description: "Définit le chef de guerre du royaume",
+                options: [
+                    {
+                        type: 6,
+                        name: "joueur",
+                        description: "Le futur chef de guerre",
+                        required: true,
+                    },                    
+                    {
+                        type: 3,
+                        name: "royaume",
+                        description: "Le royaume où le chef de guerre va être changer",
+                        required: false,
+                        choices: [
+                            {name:"Arryn", value:"Arryn"},
+                            {name:"Baratheon", value:"Baratheon"},
+                            {name:"Greyjoy", value:"Greyjoy"},
+                            {name:"Lannister", value:"Lannister"},
+                            {name:"Martell", value:"Martell"},
+                            {name:"Stark", value:"Stark"},
+                            {name:"Targaryen", value:"Targaryen"},
+                            {name:"Tyrell", value:"Tyrell"}
+                        ]
+                    },
+                ],
             },
             DIPLOMATE: {
                 name: "diplomate",
-                description: "Permet à un roi de choisir son diplomate",
-                aliases: ["diplomate"],
-                category: "preparations",
-
-                usage: "<@joueur> (royaume)",
-                args: true,
+                description: "Définit le diplomate du royaume",
+                options: [
+                    {
+                        type: 6,
+                        name: "joueur",
+                        description: "Le futur diplomate",
+                        required: true,
+                    },                    
+                    {
+                        type: 3,
+                        name: "royaume",
+                        description: "Le royaume où le diplomate va être changer",
+                        required: false,
+                        choices: [
+                            {name:"Arryn", value:"Arryn"},
+                            {name:"Baratheon", value:"Baratheon"},
+                            {name:"Greyjoy", value:"Greyjoy"},
+                            {name:"Lannister", value:"Lannister"},
+                            {name:"Martell", value:"Martell"},
+                            {name:"Stark", value:"Stark"},
+                            {name:"Targaryen", value:"Targaryen"},
+                            {name:"Tyrell", value:"Tyrell"}
+                        ]
+                    },
+                ],
             },
             JOIN: {
                 name: "join",
-                description: "Permet à un joueur de rejoindre la partie.",
-                aliases: ["join"],
-                category: "preparations",
-
-                usage: "<Arryn, Baratheon, Greyjoy, Lannister, Martell, Stark, Targaryen, Tyrell> (joueur)",
-                args: true,
-            },
+                description: "Vous fait rentrer dans la partie",
+                options: [
+                    {
+                        type: 3,
+                        name: "royaume",
+                        description: "Le royaume que vous voullez rejoindre",
+                        required: true,
+                        choices: [
+                            {name:"Arryn", value:"Arryn"},
+                            {name:"Baratheon", value:"Baratheon"},
+                            {name:"Greyjoy", value:"Greyjoy"},
+                            {name:"Lannister", value:"Lannister"},
+                            {name:"Martell", value:"Martell"},
+                            {name:"Stark", value:"Stark"},
+                            {name:"Targaryen", value:"Targaryen"},
+                            {name:"Tyrell", value:"Tyrell"}
+                        ]
+                    },
+                    {
+                        type: 6,
+                        name: "joueur",
+                        description: "Le joueur à rajouter dans la partie",
+                        required: false,
+                    },
+                ],
+            },            
             LEAVE: {
                 name: "leave",
-                description: "Permet à un joueur de quiter la partie",
-                aliases: ["leave"],
-                category: "preparations",
-
-                usage: "(joueur)",
-                args: false,
+                description: "Vous fait quitter la partie",
+                options: [
+                    {
+                        type: 6,
+                        name: "joueur",
+                        description: "Le joueur à rajouter dans la partie",
+                        required: false,
+                    },
+                ],
             },
             START: {
                 name: "start",
-                description: "Permet à un maitre du jeu de démarer la partie",
-                aliases: ["start"],
-                category: "preparations",
-
-                usage: "",
-                args: false,
+                description: "Permet de passer à la phase 1",
             },
             VOTEROI: {
-                name: "voteRoi",
-                description: "Permet au joueur de voter son roi",
-                aliases: ["voteroi"],
-                category: "preparations",
-
-                usage: "<@Joueur> (Royaume)",
-                args: true,
+                name: "voteroi",
+                description: "Vous permet de voter un roi",
+                options: [
+                    {
+                        type: 6,
+                        name: "joueur",
+                        description: "Le joueur que vous voulez voter",
+                        required: true,
+                    },
+                    {
+                        type: 5,
+                        name: "force",
+                        description: "Si le vote doit être forcé",
+                        required: false,
+                    },
+                ],
             },
-        },
+        }
     },
 };
 

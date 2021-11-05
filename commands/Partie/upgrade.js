@@ -1,33 +1,14 @@
 const { MESSAGES } = require("../../utils/constants");
-const { ROLEJOUEUR } = require("../../config");
 const fs = require("fs");
 
-module.exports.run = async (bot, message, args) => {
-    if (!bot.hasRole(message.member.roles.cache, ROLEJOUEUR)) {
-        return await message.reply("Vous n'êtes pas dans la partie! Demmandez avec un MDJ pour rejoindre une partie.")
+module.exports.execute = async (bot, interaction) => {
+    if (!bot.hasRole(interaction.member.roles.cache, bot.config.ROLEJOUEUR)) { //Verrifie que le joueur est dans la partie
+        return await interaction.reply({
+            content: `Vous n'êtes pas dans la partie! Demmandez à un <@&${bot.config.ROLEMJ}> pour rejoindre une partie.`,            
+            ephemeral: true,
+        })
     }
-    let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
-
-    royaumesList = [
-        "Arryn",
-        "Baratheon",
-        "Greyjoy",
-        "Lannister",
-        "Martell",
-        "Stark",
-        "Targaryen",
-        "Tyrell",
-    ];
-    rolesId = [
-        "702823145668739142",
-        "702823256578719846",
-        "702838713775816734",
-        "702822919511867411",
-        "702823114320642128",
-        "702822841443155988",
-        "702822871491149844",
-        "702823220331675648",
-    ];
+    
     const couts = { // Les règles d'achat
         "Div": {
             A:"200|Gallions+400|Fer",
@@ -65,28 +46,34 @@ module.exports.run = async (bot, message, args) => {
         }
     }
 
-    var role = bot.hasRole(message.member.roles.cache, rolesId); // Récupère l'id du role du royaume
-    var Royaume = royaumesList[rolesId.indexOf(role)]; // Récupère le nom du royaume
+    let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
+    const role = bot.hasRole(interaction.member.roles.cache, bot.config.ROYAUMEID); // Récupère l'id du role du royaume
+    const Royaume = bot.config.ROYAUMELIST[bot.config.ROYAUMEID.indexOf(role)]; // Récupère le nom du royaume, a la position de l'id du royaume
+    const specification = interaction.options.getString("specification") // Récupère la zone choisie par l'utilisateur
+    const namearmy = interaction.options.getString("specification") // Récupère la zone choisie par l'utilisateur
 
-    var indice = false
+    var indice = false // Récupère l'indice de l'armée dans le royaume
     for (let i in fichier[Royaume].Armies) { // Cherche si l'armée apppartien au royaume, et récupère sa position si c'est le cas
-        if (fichier[Royaume].Armies[i].name==args[0]) {
+        if (fichier[Royaume].Armies[i].name==namearmy) {
             indice=i
         }
     }
     if (indice===false) { // Si l'armée n'existe pas
-        return await message.reply("Vous devez choisir une armée de votre royaume !")
+        return await interaction.reply({
+            content: `Vous devez choisir une armée de votre royaume !`,            
+            ephemeral: true,
+        })
     }
     
     let armee = fichier[Royaume].Armies[indice].name.split("|") // On récupèe le nom de l'armée, en liste, de manière décompressé
     let type=armee[0] // Récupère le type de l'armée 
     let lvl=armee.length==4?armee.length:0 // Récupère le niveau de l'armée => 0 ou 1 ou 2
 
-    if (lvl==0&&args.length==1) { // Si c'est une armée de niveau 0
-        return message.reply("Vous devez choisir une spécialisation A, D ou E pour votre armée")
-    }
     if (lvl==2) { // Si c'est une armée de niveau 2
-        return message.reply("Votre armée est déja au noveau max !")
+        return await interaction.reply({
+            content: `Votre armée est déja au noveau max !`,            
+            ephemeral: true,
+        })
     }
     
     // Récupération du cout
@@ -96,17 +83,17 @@ module.exports.run = async (bot, message, args) => {
     let pD=0;
     let pE=0;
     if (lvl==0) {
-        cout=couts[type][args[1]] // Div A,D,E
-        speci=args[1]
-        pA=points[type][args[1]][0] // Les points d'attaques niveau 1
-        pD=points[type][args[1]][1]
-        pE=points[type][args[1]][2]
-    } else {
-        cout=couts[type][`${armee[1]}${armee[1]}`] // Div DD
+        speci=specification
+        cout=couts[type][speci] // Div A,D,E
+        pA=points[type][speci][0] // Les points d'attaques niveau 1
+        pD=points[type][speci][1]
+        pE=points[type][speci][2]
+    } else {        
         speci=`${armee[1]}${armee[1]}`
-        pA=points[type][args[1]][0]
-        pD=points[type][args[1]][1]
-        pE=points[type][args[1]][2]
+        cout=couts[type][`${armee[1]}${armee[1]}`] // Div DD
+        pA=points[type][speci][0]
+        pD=points[type][speci][1]
+        pE=points[type][speci][2]
     }
 
     // Test si assez de ressources
@@ -114,7 +101,10 @@ module.exports.run = async (bot, message, args) => {
     for (let res of ressources) {
         res=res.split("|")
         if (fichier[Royaume][res[1]]<res[0]) {
-            return await message.reply("Vous n'avez pas assez de ressources")
+            return await interaction.reply({
+                content: `Vous n'avez pas assez de ressources !`,            
+                ephemeral: true,
+            })
         }
     }
 
@@ -130,10 +120,15 @@ module.exports.run = async (bot, message, args) => {
     fichier[Royaume].Armies[indice].pA=pA // Enregistre les nouveaux pA
     fichier[Royaume].Armies[indice].pD=pD // Enregistre les nouveaux pD
     fichier[Royaume].Armies[indice].pE=pE // Enregistre les nouveaux pE
-    await message.reply(`Vote armée ${name} viens d'être améliorée ! *Va voir dans ton salon Statistique pour voir ses nouvelles compétences :wink:`)
+
     
-    bot.updateStats(Royaume) // Actualise le salon des stats
-    fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
+    await interaction.reply({
+        content: `Vote armée ${name} viens d'être améliorée ! *Va voir dans ton salon Statistique pour voir ses nouvelles compétences :wink:`,            
+        ephemeral: true,
+    })
+   
+    fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier    
+    bot.updateStats(Royaume) // Actualise le salon des stats   
 };
 
 module.exports.help = MESSAGES.COMMANDS.PARTIE.UPGRADE;

@@ -1,7 +1,15 @@
 const { MESSAGES } = require("../../utils/constants");
 const { MessageEmbed } = require("discord.js"); // Importe le constructeur qui fait les embeds
 
-module.exports.run = async (bot, message) => {
+module.exports.execute = async (bot, interaction) => {
+    
+    if (!bot.hasRole(interaction.member.roles.cache, bot.config.ROLEMJ)) { // Verrifie que c'est un maitre du jou
+        return await interaction.reply({
+            content: "Tu n'as pas la permission pour executer cette commande.",            
+		    ephemeral: true,
+        })
+    };
+
     const embed1 = new MessageEmbed()
         .setColor("001dff")
         .setTitle("🏰 __Les Royaumes__")
@@ -85,7 +93,7 @@ module.exports.run = async (bot, message) => {
             "https://cdn.discordapp.com/icons/702822547124781058/51062f8a20f04e52f1e5c4425d8831e1.png"
         );
 
-    await message.channel.send({
+    await interaction.channel.send({
         embeds: [
             embed1,
             embed2,

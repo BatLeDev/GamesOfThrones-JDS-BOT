@@ -76,11 +76,11 @@ module.exports = (bot) => {
         .setColor("#00ffdd")
         .setTitle(`𝕾𝖙𝖆𝖙𝖎𝖘𝖙𝖎𝖖𝖚𝖊𝖘 ${royaumeName}`)
         .addField(`Stats généraux`, `
-        > Roi : ${typeof fichier[royaumeName].Roi=="string"?fichier[royaumeName].Roi:"N'est pas encore choisi"}
+        > Roi : ${typeof fichier[royaumeName].Roi=="string"?`<@${fichier[royaumeName].Roi}>`:"N'est pas encore choisi"}
         > Capitale : ${fichier[royaumeName].Capitale!==null?fichier[royaumeName].Capitale:"N'est pas encore choisie"}
         > Nombre de zone : ${fichier[royaumeName].Zones.length}
-        > Diplomate : ${fichier[royaumeName].Diplomate!==null?fichier[royaumeName].Diplomate:"N'est pas encore choisi"}
-        > Chef de guerre : ${fichier[royaumeName].ChefDeGuerre!==null?fichier[royaumeName].ChefDeGuerre:"N'est pas encore choisi"}
+        > Diplomate : ${fichier[royaumeName].Diplomate!==null?`<@${fichier[royaumeName].Diplomate}>`:"N'est pas encore choisi"}
+        > Chef de guerre : ${fichier[royaumeName].ChefDeGuerre!==null?`<@${fichier[royaumeName].ChefDeGuerre}>`:"N'est pas encore choisi"}
         `)
         .addField(`Argent et Ressources possédés`, `
         > Gallions : ${fichier[royaumeName].Gallions}
@@ -103,7 +103,7 @@ module.exports = (bot) => {
         )
         .setTimestamp();
 
-        await bot.channels.cache.get(fichier[royaumeName].ChannelStats).bulkDelete(5) // On supprime les anciens stats
+        await bot.channels.cache.get(fichier[royaumeName].ChannelStats).bulkDelete(1) // On supprime les anciens stats
         await bot.channels.cache.get(fichier[royaumeName].ChannelStats).send({ embeds: [embed] })
     }
 

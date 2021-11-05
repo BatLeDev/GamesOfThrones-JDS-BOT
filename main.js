@@ -1,15 +1,20 @@
-const { Client, Collection } = require("discord.js");
+const { Client, Intents, Collection } = require("discord.js");
 const { loadCommands, loadEvents } = require("./utils/loader");
 
 const bot = new Client({
-    partials: ["MESSAGE", "CHANNEL", "REACTION"],
-    intents: ["GUILDS", "GUILD_MESSAGES"],
+	intents: [
+		Intents.FLAGS.GUILDS,
+		Intents.FLAGS.GUILD_MESSAGES
+	]
 });
-require("./utils/functions")(bot);
-bot.config = require("./config");
+
+
+require("./utils/functions")(bot); // Récupère les fonctions
+bot.config = require("./config"); // Récupère le fihcier de configuration
+
 bot.commands = new Collection();
 
 loadCommands(bot);
 loadEvents(bot);
 
-bot.login(bot.config.TOKEN);
+bot.login(bot.config.TOKEN); // Démarre le bot

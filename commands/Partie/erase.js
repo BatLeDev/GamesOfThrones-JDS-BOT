@@ -1,64 +1,45 @@
 const { MESSAGES } = require("../../utils/constants");
-const { ROLEMJ, ROLEJOUEUR } = require("../../config");
 const fs = require("fs");
 
-module.exports.run = async (bot, message, args) => {
-    if (!bot.hasRole(message.member.roles.cache, ROLEJOUEUR)) {
-        return await message.reply("Vous n'êtes pas dans la partie! Demmandez avec un MDJ pour rejoindre une partie.")
-    }
-    // Trouver le royaume
-    // Trouver l'armée et la supprime
+module.exports.execute = async (bot, interaction) => {
+    if (!bot.hasRole(interaction.member.roles.cache, bot.config.ROLEJOUEUR)) {
+        return await interaction.reply({
+            content: `Vous n'êtes pas dans la partie! Demmandez à un <@&${bot.config.ROLEMJ}> pour rejoindre une partie.`,            
+		    ephemeral: true,
+        })
+    };
 
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
-    royaumesList = [
-        "Arryn",
-        "Baratheon",
-        "Greyjoy",
-        "Lannister",
-        "Martell",
-        "Stark",
-        "Targaryen",
-        "Tyrell"
-    ];
-    rolesId = [
-        "702823145668739142",
-        "702823256578719846",
-        "702838713775816734",
-        "702822919511867411",
-        "702823114320642128",
-        "702822841443155988",
-        "702822871491149844",
-        "702823220331675648",
-    ];
+    let resRoyaume = interaction.options.getString("royaume")
+    let armee = interaction.options.getString("armee") // On récupère le nom de l'armée
 
     // Trouve le royaume
     let royaume=""
-    if (args.length>1&&bot.hasRole(message.member.roles.cache, ROLEMJ)) { // Si c'est un maitre du jeu
-        if (message.mentions.roles.size >= 1) { // Chercher la mention
-            royaume=royaumesList[rolesId.indexOf(message.mentions.roles.first().id)];
-        } else if (royaumesList.includes(args[0])) {  // Chercher le nom royaume
-            royaume = args[0]
-        } else { // Si rien trouvé envoyer erreur
-            return await message.reply("Vous devez choisir un royaume valide !")
-        }
-    } else {
-        let role = bot.hasRole(message.member.roles.cache, rolesId); // Récupère l'id du role du royaume
-        royaume = royaumesList[rolesId.indexOf(role)]; // Récupère le nom du royaume
+    if (resRoyaume&&bot.hasRole(interaction.member.roles.cache, bot.config.ROLEMJ)) { // Si c'est un maitre du jeu, et qu'il a tapé un nom de royaume
+        royaume = resRoyaume // Alors royaume == le royaume donné par le mdj
+
+    } else { // Si c'est un joueur normal
+        let role = bot.hasRole(interaction.member.roles.cache, bot.config.ROYAUMEID); // Récupère l'id du role du royaume, a partir de la liste de ses roles, et de la liste des roles de royaumes
+        royaume = royaumesList[ROYAUMEID.indexOf(role)]; // Récupère le nom du royaume a partir de l'id du role
     }
 
-    let del=false // Passe a vraie si il supprime une armée
-    for (let iarmee in fichier[royaume].Armies) {
-        if (fichier[royaume].Armies[iarmee].name==args[0])  {
-            fichier[royaume].Armies.splice(iarmee,1)
-            await message.reply(`Votre armée ${args[0]} à bien été supprimée !`)
-            del=true
+    for (let iarmee in fichier[royaume].Armies) { // Pour chaque armée du royaume
+        if (fichier[royaume].Armies[iarmee].name==armee)  {  // On compare le nom de l'armée do ruyaume, arvec le nom donné
+            fichier[royaume].Armies.splice(iarmee,1) // On suprime l'armée    
+            fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
+            await interaction.reply({ 
+                content:`Votre armée ${args[0]} à bien été supprimée !`,
+                ephemeral: false,
+            })
+            return // On return car ça y est on a supprimé une armée
         }
     }
-    if (del===false) { // Si aucune armée n'est suprimée
-        return await message.reply('Vous devez choisir une armée existante !')
-    }
-    
-    fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
+
+	interaction.reply({ // Si aucune armée n'est suprimée
+		content: 'Vous devez choisir une armée existante !',
+		ephemeral: true,
+	})
 };
+
 
 module.exports.help = MESSAGES.COMMANDS.PARTIE.ERASE;

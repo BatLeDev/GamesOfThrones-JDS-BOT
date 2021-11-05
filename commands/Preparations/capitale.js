@@ -1,71 +1,74 @@
 const { MESSAGES } = require("../../utils/constants");
-const { ROLEMJ, ROLEROI, ANNONCEJEU, ROLEJOUEUR } = require("../../config");
 const fs = require("fs");
 
-module.exports.run = async (bot, message, args) => {
-    if (!bot.hasRole(message.member.roles.cache, ROLEJOUEUR)) {
-        return await message.reply("Vous n'êtes pas dans la partie! Demmandez avec un MDJ pour rejoindre une partie.")
-    }
+module.exports.execute = async (bot, interaction) => {
+    if (!bot.hasRole(interaction.member.roles.cache, bot.config.ROLEJOUEUR)) {
+        return await interaction.reply({
+            content: `Vous n'êtes pas dans la partie! Demmandez à un <@&${bot.config.ROLEMJ}> pour rejoindre une partie.`,            
+		    ephemeral: true,
+        })
+    };
+
     let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
-    royaumesList = [
-        "Arryn",
-        "Baratheon",
-        "Greyjoy",
-        "Lannister",
-        "Martell",
-        "Stark",
-        "Targaryen",
-        "Tyrell",
-    ];
-    rolesId = [
-        "702823145668739142",
-        "702823256578719846",
-        "702838713775816734",
-        "702822919511867411",
-        "702823114320642128",
-        "702822841443155988",
-        "702822871491149844",
-        "702823220331675648",
-    ];
+    let Royaume = null
 
-    if (args.length == 2 && bot.hasRole(message.member.roles.cache, ROLEMJ)) {
-        // Si c'est un maitre du jeu
-        if (!royaumesList.includes(args[1]))
-            // Si c'est pas un nom de royaume
-            return await message.reply(
-                "Vous n'avez pas choisit un royaume valide, voici la liste des royaumes: `Arryn, Baratheon, Greyjoy, Lannister, Martell, Stark, Targaryen, Tyrell`"
-            );
-        Royaume = args[1]; // On définit le nom du royaume
-    } else {
-        if (fichier.Phase!=1) return message.reply("Vous pouvez définir votre capitale uniquement durant la Phase 1.")
-        role = bot.hasRole(message.member.roles.cache, rolesId); // Récupère l'id du role du royaume
-        Royaume = royaumesList[rolesId.indexOf(role)]; // Récupère le nom du royaume
+    // Si c'est un moderateur
+    if (bot.hasRole(interaction.member.roles.cache, bot.config.ROLEMJ)) {
+        Royaume = interaction.options.getString("royaume"); // Récupère le nom du royaume, choisit par le modérateur 
     }
 
-    if (!bot.hasRole(message.member.roles.cache, ROLEROI)) // Verrifie si la personne a le role de roi
-        return await message.reply(
-            "Il faut être un roi pour pouvoir executer cette commande!"
-        );
+    if (!Royaume) { // Si le modérateur n'a pas choisit de royaume, c'est surement que c'est un joueur
+        if (bot.hasRole(interaction.member.roles.cache, bot.config.ROLEROI)) { // Verrifie que c'est un roi
 
-    let zoneroyaume=[] // La liste des noms de zones
+            const role = bot.hasRole(interaction.member.roles.cache, bot.config.ROYAUMEID); // Récupère l'id du role du royaume
+            Royaume = bot.config.ROYAUMELIST[bot.config.ROYAUMEID.indexOf(role)]; // Récupère le nom du royaume, a la position de l'id du royaume
+
+            if (typeof fichier[Royaume].Capitale==="string") { // Si la capitale est déja définie
+                return await interaction.reply({
+                    content: `La capitale est déja définie. En cas de problème, contacter un <@${bot.config.ROLEMJ}>`,
+                    ephemeral: false,
+                })
+            }
+
+        } else { // Donc ce n'est pas un roi, et aucun royaume n'a été choisit par un maitre du jeu
+            return interaction.reply({ // Si aucune armée n'est suprimée
+                content: 'Il faut être un roi pour pouvoir executer cette commande !',
+                ephemeral: true,
+            })
+        }
+    }
+
+    const Zone = interaction.options.getString("zone") // Récupère la zone choisie par l'utilisateur
+
+    let zonesName = []; // La liste des noms de zones du royaume
     for (let zone of fichier[Royaume].Zones) {
-        zoneroyaume.push(zone.name)
+        zonesName.push(zone.name);
     }
 
-    if (!zoneroyaume.includes(args[0])) // Verrifie que la zone appartien au royaume
-        return await message.reply(
-            `Vous devez choisir une zone de votre royaume !`
-        );
+    if (!zonesName.includes(Zone)) { // Cherche si la zone fait parti du royaume
+        return await interaction.reply({
+            content: `Vous devez choisir une zone de votre royaume: ${zonesName}`,            
+		    ephemeral: true,
+        });
+    }
 
-    fichier[Royaume].Capitale = args[0];
-    fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
+    fichier[Royaume].Capitale = Zone;  //  On enregistre la nouvelle capitale
+    fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier    
+    bot.updateStats(Royaume) // On actualise les stats du royaume
 
-    // Affiche l'annonce
+    // Annonce au roi
+	interaction.reply({
+		content: 'Tu viens de choisir ta capitale ! Zieute ton salon statistiques :wink: ',
+		ephemeral: false,
+	})
+
+    // Annonce à tout le monde
     await bot.channels.cache
-        .get(ANNONCEJEU)
-        .send(`La capitale des ${Royaume} a été établie en ${args[0]} !`);
+    .get(bot.config.ANNONCEJEU)
+    .send(`<@&${bot.config.ROLEJOUEUR}> La capitale des ${Royaume} a été établie en ${Zone} !`);
 
-        bot.emit("endPhase1")
+    bot.emit("endPhase1")  // On test la fin de la phase 1
 };
+
 
 module.exports.help = MESSAGES.COMMANDS.PREPARATIONS.CAPITALE;

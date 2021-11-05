@@ -1,6 +1,7 @@
 const { readdirSync } = require("fs");
 
 const loadCommands = (bot, dir = "./commands/") => {
+    const commandList = [];
     readdirSync(dir).forEach((dirs) => {
         const commands = readdirSync(`${dir}/${dirs}/`).filter((files) =>
             files.endsWith(".js")
@@ -13,11 +14,13 @@ const loadCommands = (bot, dir = "./commands/") => {
 
         for (const file of commands) {
             const getFileName = require(`../${dir}/${dirs}/${file}`);
+            commandList.push(getFileName.help);
             bot.commands.set(getFileName.help.name, getFileName);
         }
 
         console.log(`${commands.length} commande(s) trouvé dans ${dirs}`);
     });
+    bot.commandList = commandList
 };
 
 const loadEvents = (bot, dir = "./events/") => {
@@ -31,10 +34,10 @@ const loadEvents = (bot, dir = "./events/") => {
             return;
         }
 
-        for (const event of events) {
-            const evt = require(`../${dir}/${dirs}/${event}`);
-            const evtName = event.split(".")[0];
-            bot.on(evtName, evt.bind(null, bot));
+        for (const file of events) {
+            const event = require(`../${dir}/${dirs}/${file}`);
+            const evtName = file.split(".")[0];
+            bot.on(evtName, (...args) => event.execute(bot, ...args));
         }
 
         console.log(`${events.length} event(s) trouvé dans ${dirs}`);
