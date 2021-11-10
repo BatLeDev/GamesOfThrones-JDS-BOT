@@ -71,6 +71,16 @@ module.exports.execute = async (bot, interaction) => {
             Division EE: **12 pE / jour**
             Flotte EE: **8 pE / jour**
             `
+        )        
+        .addField(
+            "__**Coût de déplacement: **__",
+            `
+            Division → zone allié / zone libre : 1pE
+            Division → zone ennemi : 2pE
+
+            Flotte → zone allié / zone libre : 1pE
+            Flotte → zone ennemi : 1pE
+            `
         )
         .setFooter(
             "L'équipe JDS GOT",

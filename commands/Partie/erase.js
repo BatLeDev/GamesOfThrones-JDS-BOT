@@ -27,6 +27,7 @@ module.exports.execute = async (bot, interaction) => {
         if (fichier[royaume].Armies[iarmee].name==armee)  {  // On compare le nom de l'armée do ruyaume, arvec le nom donné
             fichier[royaume].Armies.splice(iarmee,1) // On suprime l'armée    
             fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier
+            bot.updateStats(royaume) // Actualise le salon des stats   
             await interaction.reply({ 
                 content:`Votre armée ${args[0]} à bien été supprimée !`,
                 ephemeral: false,

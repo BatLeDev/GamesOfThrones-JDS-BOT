@@ -39,15 +39,21 @@ module.exports.execute = async (bot, interaction) => {
     }
     
     // Test la présence d'une armée
-    let armeePresence=false // Passe a vrai si une armée est présente sur la zone
-    for (let armee of fichier[Royaume].Armies) {
-        if (armee.loc==Zone)  {
-            armeePresence=true
+    let armeePresence=false // Passe à vrai si une armée à soi est présente sur la zone
+    for (let iarmee in fichier[Royaume].Armies) {
+        if (fichier[Royaume].Armies[iarmee].loc==Zone)  {
+            armeePresence=iarmee
         }
     }
-    if (armeePresence) {
+    if (armeePresence===false) { // Si il n'y a pas d'armée appartenant au royaume sur la zone
         return await interaction.reply({
             content: "Vous devez avoir une armée présente sur la zone pour pouvoir la prendre",            
+		    ephemeral: true,
+        });
+    }
+    if (fichier[Royaume].Armies[armeePresence].pE) {
+        return await interaction.reply({
+            content: "Votre armée doit avoir au moins 1 pE pour revendiquer cette zone !",            
 		    ephemeral: true,
         });
     }
@@ -85,6 +91,8 @@ module.exports.execute = async (bot, interaction) => {
     });
 
     fichier[Royaume].Gallions-=200 // On retire le cout de la commande
+    fichier[Royaume].Armies[armeePresence].pE-=1 // Retire l'energie a l'armée en question
+
     fichier[Royaume].Zones.push(zonelibre);  // On ajoute la zone
     bot.moovezone(bot.config.ZONEDESC[zonelibre.name].ChanId, fichier[Royaume].CategorieId)    
     fs.writeFileSync("partieTest.json", JSON.stringify(fichier)); // On sauvegarde notre fichier

@@ -69,7 +69,7 @@ module.exports = (bot) => {
 
         let Armees = []
         for (let armee of fichier[royaumeName].Armies) {
-            Armees.push(`${armee.name} (${armee.pA}pA, ${armee.pD}pD, ${armee.pE}pE) ${armee.loc}`)
+            Armees.push(`Nom: **${armee.name}**  Stats: **${armee.pA}pA, ${armee.pD}pD, ${armee.pE}pE**  Lieu: **${armee.loc}**`)
         }
 
         const embed =  new MessageEmbed()

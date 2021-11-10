@@ -111,6 +111,51 @@ const MESSAGES = {
                 name: "nextphase",
                 description: "Passe a la phase suivante (si possible)",
             },
+            PSET: {
+                name: "pset",
+                description: "Ajoute ou retire des poinst de compétences à une armée",
+                options: [
+                    {
+                        type: 3,
+                        name: "royaume",
+                        description: "Le royaume propriétaire de l'armée",
+                        required: true,
+                        choices: [
+                            {name:"Arryn", value:"Arryn"},
+                            {name:"Baratheon", value:"Baratheon"},
+                            {name:"Greyjoy", value:"Greyjoy"},
+                            {name:"Lannister", value:"Lannister"},
+                            {name:"Martell", value:"Martell"},
+                            {name:"Stark", value:"Stark"},
+                            {name:"Targaryen", value:"Targaryen"},
+                            {name:"Tyrell", value:"Tyrell"}
+                        ]
+                    },
+                    {
+                        type: 3,
+                        name: "army",
+                        description: "Le nom de l'armée",
+                        required: true,
+                    },
+                    {
+                        type: 3,
+                        name: "pointtype",
+                        description: "Le type de point à changer",
+                        required: true,
+                        choices: [
+                            {name:"pA", value:"pA"},
+                            {name:"pD", value:"pD"},
+                            {name:"pE", value:"pE"}
+                        ]
+                    },
+                    {
+                        type: 4,
+                        name: "valeur",
+                        description: "La valeur",
+                        required: true
+                    },
+                ],
+            },
             SETDIV: {
                 name: "setdiv",
                 description: "Creer une division dans la zone choisie",
@@ -132,6 +177,48 @@ const MESSAGES = {
                         name: "zone",
                         description: "Une zone de votre royaume",
                         required: true,
+                    },
+                ],
+            },
+            SETRESSOURCES: {
+                name: "setressources",
+                description: "Définit une ressource d'un royaume",
+                options: [
+                    {
+                        type: 3,
+                        name: "royaume",
+                        description: "Le royaume propriétaire de l'armée",
+                        required: true,
+                        choices: [
+                            {name:"Arryn", value:"Arryn"},
+                            {name:"Baratheon", value:"Baratheon"},
+                            {name:"Greyjoy", value:"Greyjoy"},
+                            {name:"Lannister", value:"Lannister"},
+                            {name:"Martell", value:"Martell"},
+                            {name:"Stark", value:"Stark"},
+                            {name:"Targaryen", value:"Targaryen"},
+                            {name:"Tyrell", value:"Tyrell"}
+                        ]
+                    },
+                    {
+                        type: 3,
+                        name: "ressource",
+                        description: "Le type de point à changer",
+                        required: true,
+                        choices: [
+                            {name:"gallions", value:"Gallions"},
+                            {name:"fer", value:"Fer"},
+                            {name:"pierre", value:"Pierre"},
+                            {name:"fer", value:"Fer"},
+                            {name:"bois", value:"Bois"},
+                            {name:"cuir", value:"Cuir"},
+                        ]
+                    },
+                    {
+                        type: 4,
+                        name: "valeur",
+                        description: "La valeur",
+                        required: true
                     },
                 ],
             },

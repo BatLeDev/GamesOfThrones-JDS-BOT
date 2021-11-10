@@ -5,7 +5,7 @@ module.exports = {
         let fichier = JSON.parse(fs.readFileSync("partieTest.json")); // On récupère le fichier de la partie
 
         var nbend = 0; // Compte combien de royaume ont finit leur missions (avoir un roi, un diplomate, un chef de guerre, et une capitale)
-        for (let royaume of royaumesList) {
+        for (let royaume of bot.config.ROYAUMELIST) {
             if (
                 typeof fichier[royaume].Roi == "string" &&
                 typeof fichier[royaume].Diplomate == "string" &&

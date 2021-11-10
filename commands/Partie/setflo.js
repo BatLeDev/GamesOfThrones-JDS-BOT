@@ -44,12 +44,13 @@ module.exports.execute = async (bot, interaction) => {
     // Compte le nombre d'armée déja rattaché à cette zone
     var compteur=0
     for (let armee of fichier[Royaume].Armies) {
-        let zoneName=armee.name.split('|')[armee.name.length-2]
+        const armeeNameList=armee.name.split('|')
+        let zoneName=armeeNameList[armeeNameList.length-2]
         if (zoneName==zone) { // Si le nom de la zone est la même que la zone que l'on veut rajouter,
             compteur+=1 // On ajoute +1 au nombre d'armées qui sont déja rattaché à cette zone
         }
     }
-    if (compteur==2) { // Si il y a déjà 2 armées rattachés a cette zone 
+    if (compteur>=2) { // Si il y a déjà 2 armées rattachés a cette zone 
         return await interaction.reply({
             content: "Vous avez deja 2 armées rattachés à cette zone",            
 		    ephemeral: true,
